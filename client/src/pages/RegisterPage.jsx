@@ -58,7 +58,7 @@ const RegisterPage = () => {
             value={formData.password}
             onChange={handleChange}
           />
-          <button className="login">Register</button>
+          <button className="login" type="submit">Register</button>
           <div className="text-center py-2 text-zinc-500">
             Already have an account?{" "}
             <Link className="underline text-black" to={"/login"}>
