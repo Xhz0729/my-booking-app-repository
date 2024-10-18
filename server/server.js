@@ -21,11 +21,15 @@ app.get("/", (req, res) => {
 
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
+
+  // Await the bcrypt hash result
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   try {
     const newUser = await User.create({
       name,
       email,
-      password: bcrypt.hash(password, 10),
+      password: hashedPassword,
     });
     res.json(newUser);
   } catch (e) {
