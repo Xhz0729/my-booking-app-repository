@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import User from "./models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
+
 dotenv.config();
 
 const app = express();
@@ -17,6 +19,9 @@ app.use(
   })
 );
 app.use(express.json());
+
+// Use the cookieParser middleware to parse cookies
+app.use(cookieParser());
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -81,6 +86,29 @@ app.post("/login", async (req, res) => {
     // Log and handle potential server errors (e.g., database errors)
     console.error("Login error:", error);
     res.status(500).json({ error: "Server error" });
+  }
+});
+
+// GET route to retrieve the user profile based on the token in the cookies
+app.get("/profile", (req, res) => {
+  const { token } = req.cookies
+  // Check if the token exists
+  if (token) {
+    // Verify the token using the jwtSecret to decode the user data
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      // Error handling
+      if (err) {
+        // Respond with an error status and message if token verification fails
+        return res.status(403).json({ error: "Invalid token" });
+      }
+      // Fetch the user details from the database using the user ID from the token payload
+      const { name, email, _id } = await User.findById(userData.id);
+      // Respond with the user's name, email, and ID as JSON
+      res.json({ name, email, _id });
+    });
+  } else {
+    // If no token is found, respond with null to indicate no user is logged in
+    res.json(null);
   }
 });
 
