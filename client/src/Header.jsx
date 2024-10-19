@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const HeaderPage = () => {
+const Header = () => {
   return (
     <div>
       <header className="p-6 flex justify-between">
@@ -86,4 +86,4 @@ const HeaderPage = () => {
   );
 };
 
-export default HeaderPage;
+export default Header;
