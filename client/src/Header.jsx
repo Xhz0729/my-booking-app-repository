@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "./context/UserContext";
 
 const Header = () => {
+  // grab user from Usercontext
+  const { user } = useContext(UserContext);
   return (
     <div>
       <header className="p-6 flex justify-between">
@@ -80,6 +83,8 @@ const Header = () => {
               />
             </svg>
           </div>
+          {/* Conditionally render the user's name if the user object exists */}
+          {!!user && <div>{user.name}</div>}
         </Link>
       </header>
     </div>
