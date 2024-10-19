@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 8080;
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5174",
   })
 );
 app.use(express.json());
@@ -91,7 +91,7 @@ app.post("/login", async (req, res) => {
 
 // GET route to retrieve the user profile based on the token in the cookies
 app.get("/profile", (req, res) => {
-  const { token } = req.cookies
+  const { token } = req.cookies;
   // Check if the token exists
   if (token) {
     // Verify the token using the jwtSecret to decode the user data
@@ -110,6 +110,11 @@ app.get("/profile", (req, res) => {
     // If no token is found, respond with null to indicate no user is logged in
     res.json(null);
   }
+});
+
+// Post route to logout
+app.post("/logout", (req, res) => {
+  res.cookie("token", "").json(true);
 });
 
 app.listen(PORT, () => {
