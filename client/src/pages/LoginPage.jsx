@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  // initilize a redirect state
+  const [redirect, setRedirect] = useState(false);
 
   // handle user input
   const handleChange = (e) => {
@@ -20,9 +22,16 @@ const LoginPage = () => {
     try {
       await axios.post("/login", { email, password });
       alert("Successfully Login");
+      // if login successfully, setRedirect = 'true'
+      setRedirect(true);
     } catch (e) {
       alert("Login Failed");
     }
+  }
+
+  // redirect to homepage
+  if (redirect) {
+    return <Navigate to={"/"} />;
   }
 
   return (
