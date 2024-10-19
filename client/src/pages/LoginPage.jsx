@@ -1,11 +1,15 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   // initilize a redirect state
   const [redirect, setRedirect] = useState(false);
+
+  // grab the setUser function from UserContext
+  const { setUser } = useContext(UserContext);
 
   // handle user input
   const handleChange = (e) => {
@@ -20,7 +24,10 @@ const LoginPage = () => {
     ev.preventDefault();
     const { email, password } = formData;
     try {
-      await axios.post("/login", { email, password });
+      // send a POST request to the '/login' endpoint with email and password
+      const { data } = await axios.post("/login", { email, password });
+      // Update the user state with the user data returned from the API response
+      setUser(data.user);
       alert("Successfully Login");
       // if login successfully, setRedirect = 'true'
       setRedirect(true);
