@@ -9,6 +9,8 @@ export const UserContext = createContext({});
 export function UserContextProvider({ children }) {
   // Declare the user state variable and setUser function using useState, initialized as null
   const [user, setUser] = useState(null);
+  // Declare the ready state to check whether data loading finished or not
+  const [ready, setReady] = useState(false);
 
   // It checks if the user is not set, then makes an API call to retrieve the user profile
   useEffect(() => {
@@ -17,13 +19,15 @@ export function UserContextProvider({ children }) {
       axios.get("/profile").then(({ data }) => {
         // Update the user state with the retrieved data
         setUser(data);
+        // setReady to true
+        setReady(true);
       });
     }
   }, [user]);
   // Return the UserContext provider that wraps the child components
   // Pass the user state and setUser function to the context value so that child components can access and update the user state
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, ready }}>
       {children}
     </UserContext.Provider>
   );
