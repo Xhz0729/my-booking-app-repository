@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { Link, Navigate, useParams } from "react-router-dom";
 import axios from "axios";
+import PlacesPage from "./PlacesPage";
 
 export const AccountPage = () => {
   // Access the user context to get user data, setUser function, and ready state
@@ -118,6 +119,8 @@ export const AccountPage = () => {
           </button>
         </div>
       )}
+
+      {subpage === "listings" && <PlacesPage />}
     </div>
   );
 };
