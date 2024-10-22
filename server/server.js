@@ -6,6 +6,13 @@ import User from "./models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import imageDownloader from "image-downloader";
+import multer from "multer";
+import fs from "fs";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+export const __filename = fileURLToPath(import.meta.url);
+export const __dirname = dirname(__filename);
 
 dotenv.config();
 
@@ -15,10 +22,11 @@ const PORT = process.env.PORT || 8080;
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5174",
+    origin: "http://localhost:5173",
   })
 );
 app.use(express.json());
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 // Use the cookieParser middleware to parse cookies
 app.use(cookieParser());
@@ -115,6 +123,52 @@ app.get("/profile", (req, res) => {
 // Post route to logout
 app.post("/logout", (req, res) => {
   res.cookie("token", "").json(true);
+});
+
+// POST route to upload by URL
+app.post("/upload-by-url", async (req, res) => {
+  const { link } = req.body;
+  const newName = Date.now() + ".jpg"; // Generate a new filename
+
+  try {
+    // Use async/await to ensure the image download completes before sending a response
+    await imageDownloader.image({
+      url: link,
+      dest: __dirname + "/uploads/" + newName,
+    });
+
+    // Respond with the new filename after the image has been successfully downloaded
+    res.json(newName);
+  } catch (error) {
+    console.error("Error downloading image:", error);
+    res.status(500).json({ error: "Failed to download image" }); // Respond with error message if download fails
+  }
+});
+
+// Middleware to handle file uploads
+// setting the destination folder to 'uploads/'
+const photosMidWare = multer({ dest: "uploads/" });
+
+// Post route to handle photo uploads
+app.post("/upload", photosMidWare.array("photos", 100), (req, res) => {
+  const uploadedFiles = [];
+
+  // Loop through each uploaded file
+  for (let i = 0; i < req.files.length; i++) {
+    // Extract file path and original name
+    const { path, originalname } = req.files[i];
+    // Split the original file name to get the extension and get the new filename
+    const parts = originalname.split(".");
+    const extension = parts[parts.length - 1];
+    const newPath = path + "." + extension;
+    // Rename the file to include the correct extension
+    fs.renameSync(path, newPath);
+    // Add the new file path to the array, removing 'uploads/' prefix
+    uploadedFiles.push(newPath.replace("uploads/", " "));
+  }
+
+  // Send the list of uploaded file paths back as the response
+  res.json(uploadedFiles);
 });
 
 app.listen(PORT, () => {
