@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Layout from "./Layout";
+import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import axios from "axios";
@@ -20,6 +20,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/account/:subpage?" element={<AccountPage />} />
+              <Route path="/account/:subpage/:action" element={<AccountPage />} />
             </Route>
           </Routes>
         </div>
