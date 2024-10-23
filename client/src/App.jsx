@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import axios from "axios";
 import { UserContextProvider } from "./context/UserContext";
-import { AccountPage } from "./pages/AccountPage";
+import ProfilePage from "./pages/ProfilePage";
 import PlacesPage from "./pages/PlacesPage";
 import AddPlaceForm from "./components/AddPlaceForm";
 
@@ -21,7 +21,7 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
-              <Route path="/account" element={<AccountPage />} />
+              <Route path="/account" element={<ProfilePage />} />
               <Route path="/account/listings" element={<PlacesPage />} />
               <Route path="/account/listings/new" element={<AddPlaceForm />} />
             </Route>
