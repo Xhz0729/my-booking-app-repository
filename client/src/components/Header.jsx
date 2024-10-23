@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
-const HeaderPage = () => {
+const Header = () => {
+  // grab user from Usercontext
+  const { user } = useContext(UserContext);
   return (
     <div>
       <header className="p-6 flex justify-between">
         {/* icon and company name */}
-        <a href="" className="flex items-center gap-2">
+        {/* click the icon to direct to hompage */}
+        <Link to={"/"} href="" className="flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -22,7 +26,7 @@ const HeaderPage = () => {
             />
           </svg>
           <span className="font-bold text-xl">DreamStay</span>
-        </a>
+        </Link>
         {/* search area */}
         <div className="flex border border-neutral-300 rounded-full py-2 px-6 shadow-md shadow-gray-300 gap-4">
           <div>Where</div>
@@ -49,7 +53,8 @@ const HeaderPage = () => {
         </div>
         {/* menu bar and user icon */}
         <Link
-          to={"/login"}
+          // if we have a user, go to account page, otherwise go to login page
+          to={user ? "/account" : "/login"}
           className="flex items-center border border-neutral-300 rounded-full py-2 px-6 shadow-md shadow-gray-300 gap-4"
         >
           <svg
@@ -80,10 +85,12 @@ const HeaderPage = () => {
               />
             </svg>
           </div>
+          {/* Conditionally render the user's name if the user object exists */}
+          {!!user && <div>{user.name}</div>}
         </Link>
       </header>
     </div>
   );
 };
 
-export default HeaderPage;
+export default Header;
