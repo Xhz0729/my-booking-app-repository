@@ -28,6 +28,7 @@ const LoginPage = () => {
       const { data } = await axios.post("/login", { email, password });
       // Update the user state with the user data returned from the API response
       setUser(data.user);
+      // TODO: try to use a message state to convey the message instead of alert
       alert("Successfully Login");
       // if login successfully, setRedirect = 'true'
       setRedirect(true);
