@@ -5,7 +5,7 @@ import axios from "axios";
 import PlacesPage from "./PlacesPage";
 import AccountNav from "../components/AccountNav";
 
-export const AccountPage = () => {
+const ProfilePage = () => {
   // Access the user context to get user data, setUser function, and ready state
   const { user, setUser, ready } = useContext(UserContext);
 
@@ -61,3 +61,5 @@ export const AccountPage = () => {
     </div>
   );
 };
+
+export default ProfilePage;
