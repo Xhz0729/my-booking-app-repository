@@ -8,7 +8,7 @@ const Amenities = ({ selected, onChange }) => {
     if (checked) {
       onChange([...selected, name]);
     } else {
-      [...selected.filter((selectedName) => selectedName !== name)];
+      onChange([...selected.filter((selectedName) => selectedName !== name)]);
     }
   }
 
@@ -16,7 +16,7 @@ const Amenities = ({ selected, onChange }) => {
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" />
+        <input type="checkbox" onChange={handChecked} name="wifi" />
         {/* SVG for WiFi icon */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +35,7 @@ const Amenities = ({ selected, onChange }) => {
         <span>Wifi</span>
       </label>
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" />
+        <input type="checkbox" onChange={handChecked} name="parking" />
         {/* SVG for parking icon */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ const Amenities = ({ selected, onChange }) => {
         <span>Free Parking</span>
       </label>
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" />
+        <input type="checkbox" onChange={handChecked} name="pet" />
 
         {/* SVG for a heart icon for pet session */}
         <svg
@@ -75,7 +75,7 @@ const Amenities = ({ selected, onChange }) => {
         <span>Pets Allowed</span>
       </label>
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" />
+        <input type="checkbox" onChange={handChecked} name="tv" />
 
         {/* SVG for TV icon */}
         <svg
@@ -96,7 +96,7 @@ const Amenities = ({ selected, onChange }) => {
         <span>TV</span>
       </label>
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" />
+        <input type="checkbox" onChange={handChecked} name="entrance" />
 
         {/* SVG for identification icon for private entrence */}
         <svg
@@ -117,7 +117,7 @@ const Amenities = ({ selected, onChange }) => {
         <span>Private Entrance</span>
       </label>
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" />
+        <input type="checkbox" onChange={handChecked} name="pool" />
 
         {/* SVG for a smiling face icon for swimming pool */}
         <svg
