@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import User from "./models/User.js";
+import Place from "./models/Place.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
@@ -169,6 +170,45 @@ app.post("/upload", photosMidWare.array("photos", 100), (req, res) => {
 
   // Send the list of uploaded file paths back as the response
   res.json(uploadedFiles);
+});
+
+// POST route to create a new place
+app.post("/places", (req, res) => {
+  // grab user id from the token
+  const { token } = req.cookies;
+
+  const {
+    title,
+    address,
+    photos,
+    description,
+    amenities,
+    extraInfo,
+    checkIn,
+    checkOut,
+    maxGuests,
+  } = req.body;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    // Error handling
+    if (err) {
+      // Respond with an error status and message if token verification fails
+      return res.status(403).json({ error: "Invalid token" });
+    }
+    const newPlace = await Place.create({
+      owner: userData.id,
+      title,
+      address,
+      photos,
+      description,
+      amenities,
+      extraInfo,
+      checkIn,
+      checkOut,
+      maxGuests,
+    });
+    res.json(newPlace);
+  });
 });
 
 app.listen(PORT, () => {
