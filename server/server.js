@@ -213,19 +213,89 @@ app.post("/places", (req, res) => {
 
 // Get route to retrieve all places related to the user by user id
 app.get("/places", (req, res) => {
-    const { token } = req.cookies;
-    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-      // Error handling
-      if (err) {
-        // Respond with an error status and message if token verification fails
-        return res.status(403).json({ error: "Invalid token" });
-      }
-      // Retrieve all places that belong to the user
-      const { id } = userData;
-      const places = await Place.find({ owner: id });
-      res.json(places);
-    });
+  const { token } = req.cookies;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    // Error handling
+    if (err) {
+      // Respond with an error status and message if token verification fails
+      return res.status(403).json({ error: "Invalid token" });
+    }
+    // Retrieve all places that belong to the user
+    const { id } = userData;
+    const places = await Place.find({ owner: id });
+    res.json(places);
   });
+});
+
+// Get route to retrieve a single place by id
+app.get("/places/:id", async (req, res) => {
+  const { id } = req.params;
+  res.json(await Place.findById(id));
+});
+
+// Put route to update a place by id
+app.put("/places", async (req, res) => {
+  const { token } = req.cookies;
+  const {
+    id,
+    title,
+    address,
+    photos,
+    description,
+    amenities,
+    extraInfo,
+    checkIn,
+    checkOut,
+    maxGuests,
+  } = req.body;
+
+  // Verify JWT token
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    // Error handling for JWT verification
+    if (err) {
+      return res.status(403).json({ error: "Invalid token" });
+    }
+
+    try {
+      // Find the place by id
+      const placeData = await Place.findById(id);
+
+      // Check if the user is the owner of the place
+      if (!placeData) {
+        return res.status(404).json({ error: "Place not found" });
+      }
+
+      if (userData.id === placeData.owner.toString()) {
+        // Update the place data
+        placeData.set({
+          title,
+          address,
+          photos,
+          description,
+          amenities,
+          extraInfo,
+          checkIn,
+          checkOut,
+          maxGuests,
+        });
+
+        // Save the updated place
+        await placeData.save();
+        return res.json({ message: "Place updated successfully!" });
+      } else {
+        // If the user is not the owner, return forbidden
+        return res
+          .status(403)
+          .json({ error: "You are not the owner of this place" });
+      }
+    } catch (error) {
+      // Error handling for place finding or saving
+      return res
+        .status(500)
+        .json({ error: "An error occurred while updating the place" });
+    }
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
