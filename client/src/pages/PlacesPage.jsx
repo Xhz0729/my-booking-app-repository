@@ -44,9 +44,9 @@ const PlacesPage = () => {
       <div className="mt-6">
         {places.length > 0 &&
           places.map((place) => (
-            <div
-              className="flex gap-4 bg-blue-200 mb-4 p-4 rounded-2xl"
-              key={place.id}
+            <Link to={'/account/listings/'+ place._id}
+              className="flex gap-4 bg-blue-200 mb-4 p-4 rounded-2xl cursor-pointer"
+              key={place._id}
             >
               {/* Render the place first image */}
               <div className="w-32 h-32 bg-blue-200 grow shrink-0">
@@ -60,7 +60,7 @@ const PlacesPage = () => {
                 <h2 className="text-xl font-bold">{place.title}</h2>
                 <p className="text-sm mt-2">{place.description}</p>
               </div>
-            </div>
+            </Link>
           ))}
       </div>
     </div>
