@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AccountNav from "../components/AccountNav";
+import axios from "axios";
 
-// State management for form fields, photos, and amenities
 const PlacesPage = () => {
+  // Place state
+  const [places, setPlaces] = useState([]);
+  // Fetch places using axios
+  useEffect(() => {
+    axios.get("/places").then((response) => {
+      setPlaces(response.data);
+    });
+  }, []);
+
   return (
     <div>
       {/*Render the AccountNav component*/}
@@ -30,6 +39,29 @@ const PlacesPage = () => {
           </svg>
           Add a new place
         </Link>
+      </div>
+      {/* Render the list of places */}
+      <div className="mt-6">
+        {places.length > 0 &&
+          places.map((place) => (
+            <div
+              className="flex gap-4 bg-blue-200 mb-4 p-4 rounded-2xl"
+              key={place.id}
+            >
+              {/* Render the place first image */}
+              <div className="w-32 h-32 bg-blue-200 grow shrink-0">
+                <img
+                  src={`http://localhost:8080/uploads/${place.photos[0]}`}
+                  alt={place.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="grow-0 shrink">
+                <h2 className="text-xl font-bold">{place.title}</h2>
+                <p className="text-sm mt-2">{place.description}</p>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );
