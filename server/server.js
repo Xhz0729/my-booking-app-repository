@@ -211,6 +211,22 @@ app.post("/places", (req, res) => {
   });
 });
 
+// Get route to retrieve all places related to the user by user id
+app.get("/places", (req, res) => {
+    const { token } = req.cookies;
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      // Error handling
+      if (err) {
+        // Respond with an error status and message if token verification fails
+        return res.status(403).json({ error: "Invalid token" });
+      }
+      // Retrieve all places that belong to the user
+      const { id } = userData;
+      const places = await Place.find({ owner: id });
+      res.json(places);
+    });
+  });
+
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
