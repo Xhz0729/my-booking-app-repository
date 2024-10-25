@@ -4,6 +4,7 @@ import { useState } from "react";
 import AccountNav from "./AccountNav";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Image from "./Image";
 
 const AddPlaceForm = () => {
   const { id } = useParams();
@@ -53,6 +54,7 @@ const AddPlaceForm = () => {
       setPhotoLink("");
     } catch (error) {
       // error handling
+      console.log(error);
       console.error("Failed to upload the photo:", error);
     }
   }
@@ -160,12 +162,10 @@ const AddPlaceForm = () => {
         <div className="grid grid-cols-3 md: grid-cols-4 lg:grid-cols-6 gap-2">
           {photos.length > 0 &&
             photos.map((link, index) => {
-              const imageUrl =
-                "http://localhost:8080/uploads/" + String(link).trim();
               return (
                 <div key={link || index} className="h-32 flex">
-                  <img
-                    src={imageUrl}
+                  <Image
+                    src={String(link).trim()}
                     alt="image of the staying"
                     className="rounded-2xl w-full object-cover"
                   />
