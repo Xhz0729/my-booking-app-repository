@@ -9,7 +9,7 @@ import ProfilePage from "./pages/ProfilePage";
 import PlacesPage from "./pages/PlacesPage";
 import AddPlaceForm from "./components/AddPlaceForm";
 
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = "http://localhost:8080/api";
 axios.defaults.withCredentials = true;
 
 function App() {
