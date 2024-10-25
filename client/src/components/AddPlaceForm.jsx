@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Amenities from "./Amenities";
 import { useState } from "react";
 import AccountNav from "./AccountNav";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const AddPlaceForm = () => {
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
   const [photos, setPhotos] = useState([]);
@@ -15,6 +17,25 @@ const AddPlaceForm = () => {
   const [extraInfo, setExtraInfo] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
+
+  // Fetch place by id
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+    axios.get("/places/" + id).then((response) => {
+      const { data } = response;
+      setTitle(data.title);
+      setAddress(data.address);
+      setPhotos(data.photos);
+      setDescription(data.description);
+      setAmenities(data.amenities);
+      setExtraInfo(data.extraInfo);
+      setCheckIn(data.checkIn);
+      setCheckOut(data.checkOut);
+      setMaxGuests(data.maxGuests);
+    });
+  }, [id]);
 
   // upload image by url function
   async function addPhotoByUrl(ev) {
@@ -59,31 +80,38 @@ const AddPlaceForm = () => {
   }
 
   // function to handle form submission
-  function addNewPlace(ev) {
+  function savePlace(ev) {
     ev.preventDefault();
-    // Send a POST request to the server to create a new place
-    axios
-      .post("/places", {
-        title,
-        address,
-        photos,
-        description,
-        amenities,
-        extraInfo,
-        checkIn,
-        checkOut,
-        maxGuests,
-      })
-      .then((response) => {
+    const placeData = {
+      title,
+      address,
+      photos,
+      description,
+      amenities,
+      extraInfo,
+      checkIn,
+      checkOut,
+      maxGuests,
+    };
+    // Check we have an id to determine if we are creating or updating a place
+    if (id) {
+      // Update the place
+      axios.put("/places", { id, ...placeData }).then((response) => {
+        window.location.href = `/account/listings`;
+      });
+    } else {
+      // Send a POST request to the server to create a new place
+      axios.post("/places", placeData).then((response) => {
         // Redirect to places page after successful creation
         window.location.href = `/account/listings`;
       });
+    }
   }
   return (
     <div>
       {/* Render AccountNav component*/}
       <AccountNav />
-      <form onSubmit={addNewPlace}>
+      <form onSubmit={savePlace}>
         {/* Title input */}
         <h2 className="text-xl mt-6 mb-2">Title</h2>
         <p className="text-stone-500">

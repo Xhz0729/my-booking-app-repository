@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const RegisterPage = () => {
+  // Message to display to the user
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-  // handle user input
+  // Handle user input
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -17,18 +21,25 @@ const RegisterPage = () => {
     });
   };
 
-  // handle submit
+  // Handle submit
   async function registerUser(ev) {
     ev.preventDefault();
+    // Destructure the form data
+    const { name, email, password } = formData;
     try {
       await axios.post("/register", {
         name,
         email,
         password,
       });
-      alert("Registration successful. Now you can log in");
+      // Instead use a alert to notify the user try to render a message on the page
+      setMessage("Registration successful. Redirecting to login page...");
+      // Redirect the user to the login page
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (e) {
-      alert("Registration failed. Please try again later");
+      setMessage("Registration failed. Please try again later.");
     }
   }
 
@@ -58,7 +69,15 @@ const RegisterPage = () => {
             value={formData.password}
             onChange={handleChange}
           />
-          <button className="login" type="submit">Register</button>
+          <button className="login" type="submit">
+            Register
+          </button>
+
+          {/* Message display */}
+          {message && (
+            <div className="text-center py-2 text-red-500">{message}</div>
+          )}
+
           <div className="text-center py-2 text-zinc-500">
             Already have an account?{" "}
             <Link className="underline text-black" to={"/login"}>
