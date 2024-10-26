@@ -3,7 +3,7 @@ import Amenities from "./Amenities";
 import { useState } from "react";
 import AccountNav from "./AccountNav";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Image from "./Image";
 
 const AddPlaceForm = () => {
@@ -109,6 +109,15 @@ const AddPlaceForm = () => {
       });
     }
   }
+
+  // Function to delete a photo
+  function deletePhoto(link) {
+    // Filter out the photo that we want to delete
+    const newPhotos = photos.filter((photo) => photo !== link);
+    // Update the photos state
+    setPhotos(newPhotos);
+  }
+
   return (
     <div>
       {/* Render AccountNav component*/}
@@ -169,7 +178,11 @@ const AddPlaceForm = () => {
                     alt="image of the staying"
                     className="rounded-2xl w-full object-cover"
                   />
-                  <button className="absolute bottom-1 right-1 cursor-pointer bg-opacity-0">
+                  {/* Add a delete button for each photo */}
+                  <button
+                    onClick={() => deletePhoto(link)}
+                    className="absolute bottom-1 right-1 cursor-pointer bg-opacity-0"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="white"
