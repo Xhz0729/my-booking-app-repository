@@ -18,6 +18,8 @@ const AddPlaceForm = () => {
   const [extraInfo, setExtraInfo] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
+  // Add price state
+  const [price, setPrice] = useState(100);
 
   // Fetch place by id
   useEffect(() => {
@@ -35,6 +37,7 @@ const AddPlaceForm = () => {
       setCheckIn(data.checkIn);
       setCheckOut(data.checkOut);
       setMaxGuests(data.maxGuests);
+      setPrice(data.price);
     });
   }, [id]);
 
@@ -94,6 +97,7 @@ const AddPlaceForm = () => {
       checkIn,
       checkOut,
       maxGuests,
+      price,
     };
     // Check we have an id to determine if we are creating or updating a place
     if (id) {
@@ -305,7 +309,7 @@ const AddPlaceForm = () => {
         {/* Check in&out input and guests number input*/}
         <h2 className="text-xl mt-6 mb-2">Time for check in&out</h2>
         <p className="text-stone-500">Set check in&out time</p>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {/*Check in input */}
           <div>
             <h3>Check in time</h3>
@@ -338,6 +342,16 @@ const AddPlaceForm = () => {
               onChange={(ev) => setMaxGuests(ev.target.value)}
             />
             <input />
+          </div>
+          {/* Add price input */}
+          <div>
+            <h3>Price/night</h3>
+            <input
+              type="number"
+              placeholder="100"
+              value={price}
+              onChange={(ev) => setPrice(ev.target.value)}
+            />
           </div>
         </div>
         {/*Save button */}
