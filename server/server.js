@@ -9,6 +9,8 @@ import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import imageDownloader from "image-downloader";
 import multer from "multer";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import mime from "mime-types";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -20,24 +22,54 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+const bucket = "dream-stay-booking-app";
+
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: true,
   })
 );
 app.use(express.json());
 app.use("/uploads", express.static(__dirname + "/uploads"));
+
+// AWS S3
+async function uploadToS3(path, originalFilename, mimetype) {
+  // Create an S3 client
+  const client = new S3Client({
+    region: "us-east-2",
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY_ID,
+      secretAccessKey: process.env.S3_SECRET_ACCESS,
+    },
+  });
+  // Extract the file extension from the original filename
+  const parts = originalFilename.split(".");
+  const ext = parts[parts.length - 1];
+  // Generate a new filename with the current timestamp and the original extension
+  const newFilename = Date.now() + "." + ext;
+  // Send the file to the S3 bucket
+  await client.send(
+    new PutObjectCommand({
+      Bucket: bucket,
+      Body: fs.readFileSync(path),
+      Key: newFilename,
+      ContentType: mimetype,
+      ACL: "public-read",
+    })
+  );
+  // Return the URL of the uploaded file
+  return `https://${bucket}.s3.amazonaws.com/${newFilename}`;
+}
 
 // Use the cookieParser middleware to parse cookies
 app.use(cookieParser());
 
 const jwtSecret = process.env.JWT_SECRET;
 
-mongoose.connect(process.env.MONGO_URL);
-
 // Route for register a new user
-app.post("/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { name, email, password } = req.body;
 
   // Await the bcrypt hash result
@@ -56,7 +88,8 @@ app.post("/register", async (req, res) => {
 });
 
 // POST route for user login
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   try {
     const { email, password } = req.body;
 
@@ -99,7 +132,8 @@ app.post("/login", async (req, res) => {
 });
 
 // GET route to retrieve the user profile based on the token in the cookies
-app.get("/profile", (req, res) => {
+app.get("/api/profile", (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
   // Check if the token exists
   if (token) {
@@ -122,58 +156,46 @@ app.get("/profile", (req, res) => {
 });
 
 // Post route to logout
-app.post("/logout", (req, res) => {
+app.post("/api/logout", (req, res) => {
   res.cookie("token", "").json(true);
 });
 
-// POST route to upload by URL
-app.post("/upload-by-url", async (req, res) => {
+// POST route to upload an image by URL
+app.post("/api/upload-by-url", async (req, res) => {
   const { link } = req.body;
-  const newName = Date.now() + ".jpg"; // Generate a new filename
-
-  try {
-    // Use async/await to ensure the image download completes before sending a response
-    await imageDownloader.image({
-      url: link,
-      dest: __dirname + "/uploads/" + newName,
-    });
-
-    // Respond with the new filename after the image has been successfully downloaded
-    res.json(newName);
-  } catch (error) {
-    console.error("Error downloading image:", error);
-    res.status(500).json({ error: "Failed to download image" }); // Respond with error message if download fails
-  }
+  const newName = "photo" + Date.now() + ".jpg";
+  await imageDownloader.image({
+    url: link,
+    dest: "/tmp/" + newName,
+  });
+  const url = await uploadToS3(
+    "/tmp/" + newName,
+    newName,
+    mime.lookup("/tmp/" + newName)
+  );
+  res.json(url);
 });
 
 // Middleware to handle file uploads
-// setting the destination folder to 'uploads/'
-const photosMidWare = multer({ dest: "uploads/" });
-
-// Post route to handle photo uploads
-app.post("/upload", photosMidWare.array("photos", 100), (req, res) => {
-  const uploadedFiles = [];
-
-  // Loop through each uploaded file
-  for (let i = 0; i < req.files.length; i++) {
-    // Extract file path and original name
-    const { path, originalname } = req.files[i];
-    // Split the original file name to get the extension and get the new filename
-    const parts = originalname.split(".");
-    const extension = parts[parts.length - 1];
-    const newPath = path + "." + extension;
-    // Rename the file to include the correct extension
-    fs.renameSync(path, newPath);
-    // Add the new file path to the array, removing 'uploads/' prefix
-    uploadedFiles.push(newPath.replace("uploads/", " "));
+const photosMiddleware = multer({ dest: "/tmp" });
+// POST route to upload images from the local device
+app.post(
+  "/api/upload",
+  photosMiddleware.array("photos", 100),
+  async (req, res) => {
+    const uploadedFiles = [];
+    for (let i = 0; i < req.files.length; i++) {
+      const { path, originalname, mimetype } = req.files[i];
+      const url = await uploadToS3(path, originalname, mimetype);
+      uploadedFiles.push(url);
+    }
+    res.json(uploadedFiles);
   }
-
-  // Send the list of uploaded file paths back as the response
-  res.json(uploadedFiles);
-});
+);
 
 // POST route to create a new place
-app.post("/places", (req, res) => {
+app.post("/api/places", (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   // grab user id from the token
   const { token } = req.cookies;
 
@@ -212,7 +234,8 @@ app.post("/places", (req, res) => {
 });
 
 // Get route to retrieve all places related to the user by user id
-app.get("/places", (req, res) => {
+app.get("/api/places", (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     // Error handling
@@ -228,13 +251,14 @@ app.get("/places", (req, res) => {
 });
 
 // Get route to retrieve a single place by id
-app.get("/places/:id", async (req, res) => {
+app.get("/api/places/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   res.json(await Place.findById(id));
 });
 
 // Put route to update a place by id
-app.put("/places", async (req, res) => {
+app.put("/api/places", async (req, res) => {
   const { token } = req.cookies;
   const {
     id,
