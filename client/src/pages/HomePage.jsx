@@ -29,6 +29,10 @@ const HomePage = () => {
             <h2 className="truncate mt-2">{place.title}</h2>
             {/* Render the place address */}
             <h3 className="font-bold">{place.address}</h3>
+            {/* Render the place price */}
+            <p className="mt-1">
+              $<span className="font-bold">{place.price}</span> per night
+            </p>
           </div>
         ))}
     </div>
