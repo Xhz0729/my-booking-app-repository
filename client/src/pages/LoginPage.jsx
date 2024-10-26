@@ -4,6 +4,8 @@ import { Link, Navigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const LoginPage = () => {
+  // Message to display to the user
+  const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({ email: "", password: "" });
   // initilize a redirect state
   const [redirect, setRedirect] = useState(false);
@@ -28,12 +30,11 @@ const LoginPage = () => {
       const { data } = await axios.post("/login", { email, password });
       // Update the user state with the user data returned from the API response
       setUser(data.user);
-      // TODO: try to use a message state to convey the message instead of alert
-      alert("Successfully Login");
       // if login successfully, setRedirect = 'true'
       setRedirect(true);
     } catch (e) {
-      alert("Login Failed");
+      // if login failed, set a message to display to the user to ask for correct email or password
+      setMessage("Login failed. Please check your email and password.");
     }
   }
 
@@ -64,6 +65,12 @@ const LoginPage = () => {
           <button className="login" type="submit">
             Login
           </button>
+
+          {/* Message display */}
+          {message && (
+            <div className="text-center py-2 text-red-500">{message}</div>
+          )}
+
           <div className="text-center py-2 text-zinc-500">
             Don't have an account yet?{" "}
             <Link className="underline text-black" to={"/register"}>

@@ -16,7 +16,12 @@ const Amenities = ({ selected, onChange }) => {
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" onChange={handChecked} name="wifi" />
+        <input
+          type="checkbox"
+          onChange={handChecked}
+          checked={selected.includes("wifi")}
+          name="wifi"
+        />
         {/* SVG for WiFi icon */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +40,12 @@ const Amenities = ({ selected, onChange }) => {
         <span>Wifi</span>
       </label>
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" onChange={handChecked} name="parking" />
+        <input
+          type="checkbox"
+          onChange={handChecked}
+          checked={selected.includes("parking")}
+          name="parking"
+        />
         {/* SVG for parking icon */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +64,12 @@ const Amenities = ({ selected, onChange }) => {
         <span>Free Parking</span>
       </label>
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" onChange={handChecked} name="pet" />
+        <input
+          type="checkbox"
+          onChange={handChecked}
+          checked={selected.includes("pet")}
+          name="pet"
+        />
 
         {/* SVG for a heart icon for pet session */}
         <svg
@@ -75,7 +90,12 @@ const Amenities = ({ selected, onChange }) => {
         <span>Pets Allowed</span>
       </label>
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" onChange={handChecked} name="tv" />
+        <input
+          type="checkbox"
+          onChange={handChecked}
+          checked={selected.includes("tv")}
+          name="tv"
+        />
 
         {/* SVG for TV icon */}
         <svg
@@ -96,7 +116,12 @@ const Amenities = ({ selected, onChange }) => {
         <span>TV</span>
       </label>
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" onChange={handChecked} name="entrance" />
+        <input
+          type="checkbox"
+          onChange={handChecked}
+          checked={selected.includes("entrance")}
+          name="entrance"
+        />
 
         {/* SVG for identification icon for private entrence */}
         <svg
@@ -117,7 +142,12 @@ const Amenities = ({ selected, onChange }) => {
         <span>Private Entrance</span>
       </label>
       <label className="flex gap-2 mt-2 mb-2">
-        <input type="checkbox" onChange={handChecked} name="pool" />
+        <input
+          type="checkbox"
+          onChange={handChecked}
+          checked={selected.includes("pool")}
+          name="pool"
+        />
 
         {/* SVG for a smiling face icon for swimming pool */}
         <svg
