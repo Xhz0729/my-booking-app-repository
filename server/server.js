@@ -209,6 +209,7 @@ app.post("/api/places", (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    price,
   } = req.body;
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -228,6 +229,7 @@ app.post("/api/places", (req, res) => {
       checkIn,
       checkOut,
       maxGuests,
+      price,
     });
     res.json(newPlace);
   });
@@ -271,6 +273,7 @@ app.put("/api/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    price,
   } = req.body;
 
   // Verify JWT token
@@ -301,6 +304,7 @@ app.put("/api/places", async (req, res) => {
           checkIn,
           checkOut,
           maxGuests,
+          price,
         });
 
         // Save the updated place
