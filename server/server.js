@@ -321,6 +321,12 @@ app.put("/api/places", async (req, res) => {
   });
 });
 
+// Route to fetch all the places
+app.get("/api/all-places", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  res.json(await Place.find());
+});
+
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
