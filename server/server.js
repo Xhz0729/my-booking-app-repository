@@ -27,7 +27,7 @@ const bucket = "dream-stay-booking-app";
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173/",
+    origin: "http://localhost:5173",
   })
 );
 app.use(express.json());
@@ -241,6 +241,7 @@ app.get("/api/places", (req, res) => {
     // Error handling
     if (err) {
       // Respond with an error status and message if token verification fails
+      console.log(err);
       return res.status(403).json({ error: "Invalid token" });
     }
     // Retrieve all places that belong to the user
