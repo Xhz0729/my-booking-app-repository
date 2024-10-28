@@ -331,6 +331,13 @@ app.get("/api/all-places", async (req, res) => {
   res.json(await Place.find());
 });
 
+// Route to fetch the place details by place id
+app.get("/api/place/:id", async (req, res) => {
+  mongoose.connect(process.env.MONGO_URL);
+  const { id } = req.params;
+  res.json(await Place.findById(id));
+});
+
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
