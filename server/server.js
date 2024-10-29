@@ -16,6 +16,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
+import axios from "axios";
 
 dotenv.config();
 
@@ -336,6 +337,28 @@ app.get("/api/place/:id", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
   const { id } = req.params;
   res.json(await Place.findById(id));
+});
+
+// Route to geocoding my address
+app.get("/api/geocode", async (req, res) => {
+  const { address } = req.query;
+  try {
+    const response = await axios.get(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+        address
+      )}&key=${process.env.GOOGLE_MAPS_API_KEY}`
+    );
+    const { results } = response.data;
+    if (results.length > 0) {
+      const location = results[0].geometry.location;
+      res.json(location);
+    } else {
+      res.status(404).json({ message: "Location not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching coordinates" });
+  }
 });
 
 app.listen(PORT, () => {
