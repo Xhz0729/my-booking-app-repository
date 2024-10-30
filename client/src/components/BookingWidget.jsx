@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
+import { differenceInCalendarDays } from "date-fns";
 
 // Create a BookingWidget component with a placeData prop
 const BookingWidget = ({ placeData }) => {
@@ -6,6 +7,12 @@ const BookingWidget = ({ placeData }) => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
+
+  // Calculate the total days
+  let totalDays = 0;
+  if (checkIn && checkOut) {
+    totalDays = differenceInCalendarDays(new Date(checkOut), new Date(checkIn));
+  }
 
   return (
     <div className="my-6">
@@ -49,6 +56,12 @@ const BookingWidget = ({ placeData }) => {
         <div className="flex justify-center">
           <button className="bg-primary px-8 py-4 mt-4 rounded-2xl shadow hover:bg-red-400">
             Book this place
+            {totalDays > 0 && (
+              <span className="text-sm">
+                {" "}
+                with ${totalDays * placeData.price} 
+              </span>
+            )}
           </button>
         </div>
       </form>
