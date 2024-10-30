@@ -6,7 +6,7 @@ const BookingWidget = ({ placeData }) => {
   // state of input fields
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState(1);
+  const [numberOfGuests, setNumberOfGuests] = useState(1);
 
   // State for booking name and email
   const [name, setName] = useState("");
@@ -68,13 +68,13 @@ const BookingWidget = ({ placeData }) => {
           </div>
         )}
 
-        {/* Render the number of guests input */}
+        {/* Render the number of numberOfGuests input */}
         <label className="mx-4">
           <b>Number of guests:</b>
           <input
             type="number"
-            value={guests}
-            onChange={(e) => setGuests(e.target.value)}
+            value={numberOfGuests}
+            onChange={(e) => setNumberOfGuests(e.target.value)}
           />
         </label>
         {/* Render the book button */}
