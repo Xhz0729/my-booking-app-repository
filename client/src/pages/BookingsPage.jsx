@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import AccountNav from "../components/AccountNav";
 
 const BookingsPage = () => {
   // State for bookingsData
@@ -12,7 +13,12 @@ const BookingsPage = () => {
     });
   }, []);
 
-  return <div>Bookings</div>;
+  return (
+    <div>
+      {/* Render the AccountNav component */}
+      <AccountNav />
+    </div>
+  );
 };
 
 export default BookingsPage;
