@@ -68,6 +68,22 @@ app.use(cookieParser());
 
 const jwtSecret = process.env.JWT_SECRET;
 
+// Get user data from request
+function getUserDataFromToken(req) {
+  // Get the token from the cookies
+  const { token } = req.cookies;
+  // Return a promise that resolves with the user data
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(userData);
+      }
+    });
+  });
+}
+
 // Route for register a new user
 app.post("/api/register", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
