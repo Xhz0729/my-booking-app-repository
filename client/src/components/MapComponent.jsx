@@ -13,7 +13,7 @@ const MapComponent = ({ placeData }) => {
         const response = await axios.get(
           `/geocode?address=${encodeURIComponent(placeData.address)}`
         );
-        setCoordinates(response.data); // { lat: 29.9974362, lng: -98.0986204 }
+        setCoordinates(response.data); 
       } catch (error) {
         console.error("Error fetching coordinates:", error);
       }
