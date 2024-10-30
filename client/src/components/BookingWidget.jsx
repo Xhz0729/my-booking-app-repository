@@ -9,7 +9,7 @@ const BookingWidget = ({ placeData }) => {
 
   return (
     <div className="my-6">
-      <div className="bg-white p-2 rounded-2xl shadow">
+      <form className="bg-white p-2 rounded-2xl shadow">
         {/* Render the place price */}
         <p className="text-2xl text-center">
           Price: <b className="text-red-400">${placeData.price}</b> per night
@@ -51,7 +51,7 @@ const BookingWidget = ({ placeData }) => {
             Book this place
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
