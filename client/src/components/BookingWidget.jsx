@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react"
 
 // Create a BookingWidget component with a placeData prop
 const BookingWidget = ({ placeData }) => {
+  // state of input fields
+  const [checkIn, setCheckIn] = useState("");
+  const [checkOut, setCheckOut] = useState("");
+  const [guests, setGuests] = useState(1);
+
   return (
     <div className="my-6">
       <div className="bg-white p-2 rounded-2xl shadow">
@@ -13,17 +18,32 @@ const BookingWidget = ({ placeData }) => {
         <div className="grid grid-cols-2 my-4 gap-8 mx-4">
           <label className="border rounded-2xl p-2">
             <b>Check-in:</b>
-            <input type="date" className="w-full p-2 my-2" />
+            <input
+              type="date"
+              className="w-full p-2 my-2"
+              value={checkIn}
+              onChange={(e) => setCheckIn(e.target.value)}
+            />
           </label>
           <label className="border rounded-2xl p-2">
             <b>Check-out:</b>
-            <input type="date" className="w-full p-2 my-2" />
+            <input
+              type="date"
+              className="w-full p-2 my-2"
+              value={checkOut}
+              onChange={(e) => setCheckOut(e.target.value)}
+            />
           </label>
         </div>
         {/* Render the number of guests input */}
         <label className="">
           <b>Number of guests:</b>
-          <input type="number" className="" value={1} />
+          <input
+            type="number"
+            className=""
+            value={guests}
+            onChange={(e) => setGuests(e.target.value)}
+          />
         </label>
         {/* Render the book button */}
         <div className="flex justify-center">
