@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { differenceInCalendarDays } from "date-fns";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
+import { Navigate } from "react-router-dom";
 
 // Create a BookingWidget component with a placeData prop
 const BookingWidget = ({ placeData }) => {
@@ -14,6 +15,9 @@ const BookingWidget = ({ placeData }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
+  // State for redirecting to the booking page
+  const [redirect, setRedirect] = useState("");
+
   // Calculate the total days
   let totalDays = 0;
   if (checkIn && checkOut) {
@@ -21,6 +25,7 @@ const BookingWidget = ({ placeData }) => {
   }
   // Get the user from the context
   const { user } = useContext(UserContext);
+
   // Set username and email to the user's data
   useEffect(() => {
     if (user) {
@@ -43,8 +48,10 @@ const BookingWidget = ({ placeData }) => {
       place: placeData._id,
     });
     const bookingId = response.data._id;
-    // Redirect to the booking page
-    window.location.href = `account/bookings/${bookingId}`;
+    setRedirect(`/account/bookings/${bookingId}`);
+  }
+  if (redirect) {
+    return <Navigate to={redirect} />;
   }
 
   return (
