@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { differenceInCalendarDays } from "date-fns";
+import { UserContext } from "../context/UserContext";
 
 // Create a BookingWidget component with a placeData prop
 const BookingWidget = ({ placeData }) => {
@@ -17,6 +18,15 @@ const BookingWidget = ({ placeData }) => {
   if (checkIn && checkOut) {
     totalDays = differenceInCalendarDays(new Date(checkOut), new Date(checkIn));
   }
+  // Get the user from the context
+  const { user } = useContext(UserContext);
+  // Set username and email to the user's data
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setEmail(user.email);
+    }
+  }, [user]);
 
   return (
     <div className="my-6">
