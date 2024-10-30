@@ -8,6 +8,10 @@ const BookingWidget = ({ placeData }) => {
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
 
+  // State for booking name and email
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
   // Calculate the total days
   let totalDays = 0;
   if (checkIn && checkOut) {
@@ -42,24 +46,45 @@ const BookingWidget = ({ placeData }) => {
             />
           </label>
         </div>
+        {/* Render the name and email input */}
+        {totalDays > 0 && (
+          <div className="grid grid-cols-2 my-4 gap-8 mx-4">
+            <label>
+              <b>Your name:</b>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </label>
+            <label>
+              <b>Your email:</b>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </label>
+          </div>
+        )}
+
         {/* Render the number of guests input */}
-        <label className="">
+        <label className="mx-4">
           <b>Number of guests:</b>
           <input
             type="number"
-            className=""
             value={guests}
             onChange={(e) => setGuests(e.target.value)}
           />
         </label>
         {/* Render the book button */}
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-4">
           <button className="bg-primary px-8 py-4 mt-4 rounded-2xl shadow hover:bg-red-400">
             Book this place
             {totalDays > 0 && (
               <span className="text-sm">
                 {" "}
-                with ${totalDays * placeData.price} 
+                with ${totalDays * placeData.price}
               </span>
             )}
           </button>
