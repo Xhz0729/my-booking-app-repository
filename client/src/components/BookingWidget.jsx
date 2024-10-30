@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { differenceInCalendarDays } from "date-fns";
+import axios from "axios";
 import { UserContext } from "../context/UserContext";
 
 // Create a BookingWidget component with a placeData prop
@@ -27,6 +28,24 @@ const BookingWidget = ({ placeData }) => {
       setEmail(user.email);
     }
   }, [user]);
+
+  // Function to handle the form submission
+  async function handleBooking(e) {
+    e.preventDefault();
+    // Create a booking object
+    const response = await axios.post("/bookings", {
+      checkIn,
+      checkOut,
+      numberOfGuests,
+      name,
+      email,
+      price: totalDays * placeData.price,
+      place: placeData._id,
+    });
+    const bookingId = response.data._id;
+    // Redirect to the booking page
+    window.location.href = `account/bookings/${bookingId}`;
+  }
 
   return (
     <div className="my-6">
@@ -89,7 +108,10 @@ const BookingWidget = ({ placeData }) => {
         </label>
         {/* Render the book button */}
         <div className="flex justify-center mb-4">
-          <button className="bg-primary px-8 py-4 mt-4 rounded-2xl shadow hover:bg-red-400">
+          <button
+            onClick={handleBooking}
+            className="bg-primary px-8 py-4 mt-4 rounded-2xl shadow hover:bg-red-400"
+          >
             Book this place
             {totalDays > 0 && (
               <span className="text-sm">
