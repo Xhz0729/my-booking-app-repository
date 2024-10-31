@@ -406,6 +406,17 @@ app.post("/api/bookings", async (req, res) => {
     });
 });
 
+// Endpoint to get all bookings
+app.get("/api/bookings", async (req, res) => {
+  // Connect to the MongoDB database
+  mongoose.connect(process.env.MONGO_URL);
+  // Get userData by calling the function getUserDataFromToken
+  const userData = await getUserDataFromToken(req);
+  // Find all bookings that belong to the user
+  const bookings = await Booking.find({ user: userData.id }).populate("place");
+  res.json(bookings);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
