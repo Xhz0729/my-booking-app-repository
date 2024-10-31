@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import User from "./models/User.js";
 import Place from "./models/Place.js";
+import Booking from "./models/Booking.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
@@ -67,6 +68,22 @@ async function uploadToS3(path, originalFilename, mimetype) {
 app.use(cookieParser());
 
 const jwtSecret = process.env.JWT_SECRET;
+
+// Get user data from request
+function getUserDataFromToken(req) {
+  // Get the token from the cookies
+  const { token } = req.cookies;
+  // Return a promise that resolves with the user data
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(userData);
+      }
+    });
+  });
+}
 
 // Route for register a new user
 app.post("/api/register", async (req, res) => {
@@ -359,6 +376,34 @@ app.get("/api/geocode", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Error fetching coordinates" });
   }
+});
+
+// Endpoint to post a booking
+app.post("/api/bookings", async (req, res) => {
+  // Connect to the MongoDB database
+  mongoose.connect(process.env.MONGO_URL);
+  // Get userData by calling the function getUserDataFromToken
+  const userData = await getUserDataFromToken(req);
+  const { place, checkIn, checkOut, numberOfGuests, name, email, price } =
+    req.body;
+  // Create a new booking
+  Booking.create({
+    place,
+    checkIn,
+    checkOut,
+    numberOfGuests,
+    name,
+    email,
+    price,
+    user: userData.id,
+  })
+    .then((data) => {
+      res.json(data); // Return the booking data
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ message: "Error creating the booking" }); // Error handling
+    });
 });
 
 app.listen(PORT, () => {
