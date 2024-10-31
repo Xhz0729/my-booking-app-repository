@@ -37,6 +37,10 @@ const BookingsPage = () => {
                 className="object-cover"
               />
             </div>
+            <div className="grow-0 shrink">
+              {/* Render the booking place title */}
+              <h2 className="text-xl font-bold">{booking.place.title}</h2>
+            </div>
           </Link>
         ))}
       </div>
