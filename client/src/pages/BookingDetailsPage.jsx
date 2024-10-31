@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import MapLink from "../components/MapLink";
+import Photos from "../components/Photos";
+import MorePhotosPage from "./MorePhotosPage";
 
 const BookingDetailsPage = () => {
   // Get the booking ID from the URL
@@ -19,6 +21,8 @@ const BookingDetailsPage = () => {
     });
   }, [id]);
 
+  const [showMorePhotos, setShowMorePhotos] = useState(false); // State for showing more photos
+
   // If the booking is not found, return an empty string
   if (!booking) {
     return "";
@@ -31,6 +35,19 @@ const BookingDetailsPage = () => {
 
       {/* Render the booking address */}
       <MapLink address={booking.place.address} />
+
+      {/* Conditionally render MorePhotosPage or Photos */}
+      {showMorePhotos ? (
+        <MorePhotosPage
+          placeData={booking.place}
+          setShowMorePhotos={setShowMorePhotos}
+        />
+      ) : (
+        <Photos
+          placeData={booking.place}
+          setShowMorePhotos={setShowMorePhotos}
+        />
+      )}
     </div>
   );
 };
