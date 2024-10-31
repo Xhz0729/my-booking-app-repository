@@ -3,6 +3,7 @@ import axios from "axios";
 import AccountNav from "../components/AccountNav";
 import { Link } from "react-router-dom";
 import Image from "../components/Image";
+import { format } from "date-fns";
 
 const BookingsPage = () => {
   // State for bookingsData
@@ -40,6 +41,11 @@ const BookingsPage = () => {
             <div className="grow-0 shrink">
               {/* Render the booking place title */}
               <h2 className="text-xl font-bold">{booking.place.title}</h2>
+              {/* Render the booking check-in and check-out dates */}
+              {format(new Date(booking.checkIn), "MMM dd, yyyy")} -{" "}
+              {format(new Date(booking.checkOut), "MMM dd, yyyy")}
+              {/* Render the booking place price */}
+              <p className="mt-1">Total price: ${booking.price.toFixed(2)}</p>
             </div>
           </Link>
         ))}
