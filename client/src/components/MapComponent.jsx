@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { GoogleMap, Marker } from "@react-google-maps/api"; // Ensure you have these installed
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import MapLink from "./MapLink";
 
 const MapComponent = ({ placeData }) => {
-  // State for the coordinates
   const [coordinates, setCoordinates] = useState(null);
+  const mapRef = useRef(null); // Reference to the map
+  const markerRef = useRef(null); // Reference to the marker
+
+  // Load the Google Maps JavaScript API
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+  });
+
   // Fetch the coordinates from the address
   useEffect(() => {
     const fetchCoordinates = async () => {
-      if (!placeData?.address) return; // Prevent fetching if the address is not available
+      if (!placeData?.address) return;
       try {
         const response = await axios.get(
           `/geocode?address=${encodeURIComponent(placeData.address)}`
@@ -20,28 +27,42 @@ const MapComponent = ({ placeData }) => {
       }
     };
 
-    fetchCoordinates(); // Call the function
+    fetchCoordinates();
   }, [placeData]);
 
-  // If the coordinates are not available, show a loading message
+  // Set up the marker once the map and coordinates are loaded
+  useEffect(() => {
+    if (isLoaded && coordinates && mapRef.current) {
+      // Use google.maps.Marker
+      markerRef.current = new window.google.maps.Marker({
+        map: mapRef.current,
+        position: coordinates,
+        title: placeData.address,
+      });
+    }
+
+    // Clean up the marker on component unmount
+    return () => {
+      if (markerRef.current) {
+        markerRef.current.setMap(null);
+      }
+    };
+  }, [isLoaded, coordinates]);
+
+  if (!isLoaded) return <p>Loading Google Maps...</p>;
   if (!coordinates) return <p>Loading map...</p>;
 
   return (
     <div>
-      {/* Render the MapLink component*/}
+      {/* Render the MapLink component */}
       <MapLink address={placeData.address} />
 
       <GoogleMap
         center={coordinates}
         zoom={10}
         mapContainerStyle={{ height: "400px", width: "100%" }}
-      >
-        {/* Add a marker here */}
-        <Marker
-          position={coordinates} // Set marker position to coordinates
-          title={placeData.address} // Optional: set title for the marker
-        />
-      </GoogleMap>
+        onLoad={(map) => (mapRef.current = map)}
+      />
     </div>
   );
 };
