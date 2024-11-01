@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api"; // Ensure you have these installed
+import { GoogleMap, Marker } from "@react-google-maps/api"; // Ensure you have these installed
 import MapLink from "./MapLink";
 
 const MapComponent = ({ placeData }) => {
@@ -31,19 +31,17 @@ const MapComponent = ({ placeData }) => {
       {/* Render the MapLink component*/}
       <MapLink address={placeData.address} />
 
-      <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-        <GoogleMap
-          center={coordinates}
-          zoom={10}
-          mapContainerStyle={{ height: "400px", width: "100%" }}
-        >
-          {/* Add a marker here */}
-          <Marker
-            position={coordinates} // Set marker position to coordinates
-            title={placeData.address} // Optional: set title for the marker
-          />
-        </GoogleMap>
-      </LoadScript>
+      <GoogleMap
+        center={coordinates}
+        zoom={10}
+        mapContainerStyle={{ height: "400px", width: "100%" }}
+      >
+        {/* Add a marker here */}
+        <Marker
+          position={coordinates} // Set marker position to coordinates
+          title={placeData.address} // Optional: set title for the marker
+        />
+      </GoogleMap>
     </div>
   );
 };
