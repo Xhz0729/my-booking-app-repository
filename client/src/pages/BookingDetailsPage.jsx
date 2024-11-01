@@ -4,6 +4,8 @@ import axios from "axios";
 import MapLink from "../components/MapLink";
 import Photos from "../components/Photos";
 import MorePhotosPage from "./MorePhotosPage";
+import { format } from "date-fns";
+import { differenceInCalendarDays } from "date-fns";
 
 const BookingDetailsPage = () => {
   // Get the booking ID from the URL
@@ -36,6 +38,25 @@ const BookingDetailsPage = () => {
       {/* Render the booking address */}
       <MapLink address={booking.place.address} />
 
+      {/* Render the booking info */}
+      <div className="bg-primary p-6 my-4 rounded-2xl">
+        <h2 className="text-lg font-bold">Booking information</h2>
+        {/* Render the booking check-in and check-out dates */}
+        <p className="mt-2">
+          <b>Dates:</b>
+          {format(new Date(booking.checkIn), "MMM dd, yyyy")} -{" "}
+          {format(new Date(booking.checkOut), "MMM dd, yyyy")}
+        </p>
+        {/* Render the booking price and nights */}
+        <p className="mt-2">
+          <b>Price:</b> ${booking.price.toFixed(2)} for{" "}
+          {differenceInCalendarDays(
+            new Date(booking.checkOut),
+            new Date(booking.checkIn)
+          )}{" "}
+          nights
+        </p>
+      </div>
       {/* Conditionally render MorePhotosPage or Photos */}
       {showMorePhotos ? (
         <MorePhotosPage
