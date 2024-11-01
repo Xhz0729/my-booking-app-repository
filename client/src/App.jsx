@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { LoadScript } from "@react-google-maps/api";
 import "./App.css";
 import Layout from "./components/Layout";
-import HomePage from "./pages/Homepage";
+import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import axios from "axios";
