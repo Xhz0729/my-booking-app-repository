@@ -69,7 +69,10 @@ const RegisterPage = () => {
             value={formData.password}
             onChange={handleChange}
           />
-          <button className="login" type="submit">
+          <button
+            className="bg-primary mt-2 p-2 w-full text-white rounded-2xl hover:bg-blue-300 hover:text-white"
+            type="submit"
+          >
             Register
           </button>
 
