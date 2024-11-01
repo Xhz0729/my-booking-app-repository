@@ -173,6 +173,7 @@ The development of this project is tracked using a [Trello board](https://trello
 ## 📝 Project Files
 
 - [**Week1 milestones**](https://drive.google.com/file/d/1A3c7h4risHmuV2zdmPI0CuuQ0HCevnTW/view?usp=drive_link)
+- [**Week2 milestones**](https://drive.google.com/file/d/1X8oT2NnThrvMiiPUO1wk9VXDn-HKh8T5/view?usp=drive_link)
 
 ## Demos
 
