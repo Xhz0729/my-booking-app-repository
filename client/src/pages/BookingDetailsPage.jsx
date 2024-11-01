@@ -56,6 +56,50 @@ const BookingDetailsPage = () => {
           )}{" "}
           nights
         </p>
+        {/* Render the booking place check in&out clock time */}
+        <div className="flex gap-20 mt-2">
+          <div className="flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+
+            <p>
+              <b>Check-in:</b>
+              {booking.place.checkIn}:00 PM
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+            <p>
+              <b>Checkout:</b>
+              {booking.place.checkOut}:00 AM
+            </p>
+          </div>
+        </div>
       </div>
       {/* Conditionally render MorePhotosPage or Photos */}
       {showMorePhotos ? (
