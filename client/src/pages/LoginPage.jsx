@@ -62,7 +62,7 @@ const LoginPage = () => {
             value={formData.password}
             onChange={handleChange}
           />
-          <button className="login" type="submit">
+          <button className="login hover:bg-blue-300 hover:text-white" type="submit">
             Login
           </button>
 

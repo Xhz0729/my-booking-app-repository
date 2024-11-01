@@ -19,5 +19,5 @@ button {
 }
 
 button.login {
-  @apply bg-primary p-2 w-full text-white rounded-2xl;
+  @apply bg-primary mt-2 p-2 w-full text-white rounded-2xl;
 }
