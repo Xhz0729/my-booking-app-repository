@@ -15,9 +15,9 @@ const HomePage = () => {
       {/* Render the list of places */}
       {placesData.length > 0 &&
         placesData.map((place) => (
-          <Link to={"/place/" + place._id}>
+          <Link to={"/place/" + place._id} key={place._id}>
             {/* Render the place first image */}
-            <div key={place._id} className="rounded-xl flex">
+            <div className="rounded-xl flex">
               {place.photos?.[0] && (
                 <Image
                   className="rounded-xl object-cover aspect-square"
