@@ -100,6 +100,27 @@ Go to server and install dependencies:
   npm run dev
   ```
 
+## 🌐 Setting Up AWS S3 for Image Storage
+
+#### Step 1: Create an S3 Bucket
+
+- Log in to the [AWS Management Console](https://aws.amazon.com/console/)
+- Navigate to S3 and click Create bucket named dream-stay-booking-app
+- Name your bucket and choose a region.
+- Enable public access settings to allow images to be publicly accessible.
+- Save your bucket settings.
+
+#### Step 2: Configure AWS IAM Permissions
+
+- Go to IAM in the AWS Console and create a user with programmatic access.
+- Attach the AmazonS3FullAccess policy to this user.
+- Save your Access Key ID and Secret Access Key in the .env file you created in the server
+
+```
+  S3_ACCESS_KEY_ID=your_access_key_id
+  S3_SECRET_ACCESS=your_secret_access_key
+
+```
 ## Project Management
 
 The development of this project is tracked using a [Trello board](https://trello.com/invite/b/670feb7f0c9ba7d89c54cb48/ATTI7a52d3b4a19fbdafec91207eacbcbe8bE2C939D1/dream-stay-app). You can follow the progress, view tasks, and check completed milestones on the board.
