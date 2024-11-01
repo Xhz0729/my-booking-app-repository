@@ -121,6 +121,51 @@ Go to server and install dependencies:
   S3_SECRET_ACCESS=your_secret_access_key
 
 ```
+
+## 🗺️ Getting a Google Maps API Key
+
+- Go to the [Google Cloud Console](https://developers.google.com/maps)
+
+- Create a new project, or select an existing one.
+
+- Navigate to APIs & Services > Library, search for Maps JavaScript API, and enable it.
+
+- Go to Credentials and click Create Credentials > API Key.
+
+- Copy the generated API key and add it to both the client and server .env file:
+
+- For client side
+
+```
+VITE_GOOGLE_MAPS_API_KEY = your_google_maps_api_key
+
+```
+
+- For server side
+
+```
+GOOGLE_MAPS_API_KEY = your_google_maps_api_key
+
+```
+
+## 🎯 Advanced Feature to Improve
+
+#### User Search by Location
+
+In a real-world scenario, users may want to book accommodations in a specific location. This feature will enable users to filter listings by destination, narrowing results to match their desired location for a more streamlined experience.
+
+#### User Search by Max Guests Available
+
+Adding a "Max Guests Available" filter allows users to search for accommodations that can accommodate a specific number of guests. This feature is especially helpful for groups or families who want to ensure that their selected property has enough capacity, making searches faster and more relevant.
+
+#### Payment Feature Integration
+
+The booking functionality currently allows for reservations, but integrating a payment feature will enable users to complete their booking with secure online payments directly on the platform. This feature will enhance the user experience by streamlining the process, making it possible to confirm and pay within the app.
+
+#### Guest Number Capacity Check
+
+While each accommodation has a set maximum guest capacity, this value isn’t currently enforced during booking. This feature will verify that the number of guests entered by users does not exceed the property’s capacity, ensuring a more accurate booking experience and preventing overbookings.
+
 ## Project Management
 
 The development of this project is tracked using a [Trello board](https://trello.com/invite/b/670feb7f0c9ba7d89c54cb48/ATTI7a52d3b4a19fbdafec91207eacbcbe8bE2C939D1/dream-stay-app). You can follow the progress, view tasks, and check completed milestones on the board.
