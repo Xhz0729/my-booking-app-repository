@@ -141,7 +141,7 @@ const AddPlaceForm = () => {
         {/* Title input */}
         <h2 className="text-xl mt-6 mb-2">Title</h2>
         <p className="text-stone-500">
-          Create a title for your staying—keep it short and catchy.
+          Create a title for your stay — keep it short and catchy.
         </p>
         <input
           type="text"
@@ -152,7 +152,7 @@ const AddPlaceForm = () => {
 
         {/* Address input */}
         <h2 className="text-xl mt-6 mb-2">Address</h2>
-        <p className="text-stone-500">Provide location of this staying</p>
+        <p className="text-stone-500">Provide location of this stay</p>
         <input
           type="text"
           placeholder="address"
@@ -163,7 +163,7 @@ const AddPlaceForm = () => {
         {/* Photo input */}
         <h2 className="text-xl mt-6 mb-2">Photos</h2>
         <p className="text-stone-500">
-          Provide photos to give more details about this staying
+          Provide photos to give more details about this stay
         </p>
 
         {/* Photo input via URL */}
@@ -190,7 +190,7 @@ const AddPlaceForm = () => {
                 <div key={link || index} className="h-32 flex relative">
                   <Image
                     src={String(link).trim()}
-                    alt="image of the staying"
+                    alt="image of the stay"
                     className="rounded-2xl w-full object-cover"
                   />
                   {/* Add a delete button for each photo */}
@@ -281,7 +281,7 @@ const AddPlaceForm = () => {
         {/* Description input */}
         <h2 className="text-xl mt-6 mb-2">Description</h2>
         <p className="text-stone-500">
-          Write a nice description for this staying
+          Write a nice description for this stay
         </p>
         <textarea
           value={description}
@@ -291,7 +291,7 @@ const AddPlaceForm = () => {
         {/* Render Amenities */}
         <h2 className="text-xl mt-6 mb-2">Amenities</h2>
         <p className="text-stone-500">
-          Select all amenities that apply to this staying.
+          Select all amenities that apply to this stay.
         </p>
         {/*checkboxes */}
         <div>
@@ -300,7 +300,7 @@ const AddPlaceForm = () => {
 
         {/* Extra info input*/}
         <h2 className="text-xl mt-6 mb-2">Extra info</h2>
-        <p className="text-stone-500">Rules for this staying, etc</p>
+        <p className="text-stone-500">Rules for this stay, etc</p>
         <textarea
           value={extraInfo}
           onChange={(ev) => setExtraInfo(ev.target.value)}
