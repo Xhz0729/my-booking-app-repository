@@ -26,12 +26,25 @@ const PORT = process.env.PORT || 8080;
 
 const bucket = "dream-stay-booking-app";
 
+// CORS configuration
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://xia-booking-app.vercel.app",
+];
+
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
   })
 );
+
 app.use(express.json());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
