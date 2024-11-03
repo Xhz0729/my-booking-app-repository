@@ -29,7 +29,7 @@ const bucket = "dream-stay-booking-app";
 // CORS configuration
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://dream-stay-booking-app-frontend.vercel.app/",
+  "https://dream-stay-booking-app-frontend.vercel.app",
 ];
 
 app.use(
