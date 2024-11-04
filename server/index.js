@@ -184,7 +184,9 @@ app.get("/api/profile", verifyToken, async (req, res) => {
 
 // Post route to logout
 app.post("/api/logout", (req, res) => {
-  res.cookie("token", "").json(true);
+  // Clear the token cookie
+  res.clearCookie("token", { path: "/", sameSite: "none", secure: true });
+  res.json(true);
 });
 
 // POST route to upload an image by URL
