@@ -149,8 +149,6 @@ app.post("/api/login", async (req, res) => {
           return res.status(500).json({ error: "Token generation failed" });
         }
 
-        console.log("Generated Token:", token); // Debugging: Check token value
-
         // Return the user information in the response
         res
           .cookie("token", token, {
@@ -160,12 +158,10 @@ app.post("/api/login", async (req, res) => {
             path: "/",
           })
           .json({ user: matchedUser });
-        console.log("User logged in:", matchedUser); // Debugging: Check user info
       }
     );
   } catch (error) {
     // Log and handle potential server errors (e.g., database errors)
-    console.error("Login error:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -367,7 +363,6 @@ app.get("/api/geocode", async (req, res) => {
       res.status(404).json({ message: "Location not found" });
     }
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Error fetching coordinates" });
   }
 });
