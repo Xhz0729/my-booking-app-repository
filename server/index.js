@@ -47,7 +47,7 @@ app.use(
 );
 
 app.use(express.json());
-app.use("/uploads", express.static(__dirname + "/uploads"));
+
 
 // AWS S3
 async function uploadToS3(path, originalFilename, mimetype) {
