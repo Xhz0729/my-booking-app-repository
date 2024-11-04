@@ -28,12 +28,12 @@ const Header = () => {
           <span className="font-bold text-xl">DreamStay</span>
         </Link>
         {/* search area */}
-        <div className="flex border border-neutral-300 rounded-full py-2 px-6 shadow-md shadow-gray-300 gap-4">
+        <div className="flex border border-neutral-300 rounded-full py-4 px-6 shadow-md shadow-gray-300 gap-4">
           <div>Where</div>
           <div className="border-l border-neutral-300"></div>
           <div>When</div>
           <div className="border-l border-neutral-300"></div>
-          <div>Add guests</div>
+          <div>Guests</div>
           <button className="bg-primary text-white p-2 rounded-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
