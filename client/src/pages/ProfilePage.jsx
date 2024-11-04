@@ -50,7 +50,7 @@ const ProfilePage = () => {
           <br />
           <button
             onClick={logout}
-            className="px-48 py-2 mt-4 mx-auto bg-primary rounded-full"
+            className="px-48 py-2 mt-4 mx-auto bg-primary rounded-full hover:bg-blue-300 hover:text-white"
           >
             Logout
           </button>
