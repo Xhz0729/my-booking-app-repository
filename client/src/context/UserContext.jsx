@@ -22,6 +22,9 @@ export function UserContextProvider({ children }) {
         // setReady to true
         setReady(true);
       });
+    } else {
+      // setReady to true
+      setReady(true);
     }
   }, [user]);
   // Return the UserContext provider that wraps the child components
