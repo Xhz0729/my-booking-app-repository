@@ -3,7 +3,7 @@ import Amenities from "./Amenities";
 import { useState } from "react";
 import AccountNav from "./AccountNav";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Image from "./Image";
 
 const AddPlaceForm = () => {
@@ -20,6 +20,9 @@ const AddPlaceForm = () => {
   const [maxGuests, setMaxGuests] = useState(1);
   // Add price state
   const [price, setPrice] = useState(100);
+
+  // Add redirect state
+  const [redirect, setRedirect] = useState(false);
 
   // Fetch place by id
   useEffect(() => {
@@ -84,7 +87,7 @@ const AddPlaceForm = () => {
       });
   }
 
-  // function to handle form submission
+  // Function to handle form submission
   function savePlace(ev) {
     ev.preventDefault();
     const placeData = {
@@ -102,15 +105,26 @@ const AddPlaceForm = () => {
     // Check we have an id to determine if we are creating or updating a place
     if (id) {
       // Update the place
-      axios.put("/places", { id, ...placeData }).then((response) => {
-        window.location.href = `/account/listings`;
-      });
+      axios
+        .put("/places", { id, ...placeData })
+        .then((response) => {
+          // Set the redirect state to true after successful update
+          setRedirect(true);
+        })
+        .catch((error) => {
+          console.error("Failed to update the place:", error);
+        });
     } else {
       // Send a POST request to the server to create a new place
-      axios.post("/places", placeData).then((response) => {
-        // Redirect to places page after successful creation
-        window.location.href = `/account/listings`;
-      });
+      axios
+        .post("/places", placeData)
+        .then((response) => {
+          // Set the redirect state to true after successful creation
+          setRedirect(true);
+        })
+        .catch((error) => {
+          console.error("Failed to create the place:", error);
+        });
     }
   }
 
@@ -131,6 +145,11 @@ const AddPlaceForm = () => {
     const newPhotos = photos.filter((photo) => photo !== link);
     // Add the selected photo to the beginning of the array
     setPhotos([link, ...newPhotos]);
+  }
+
+  // Redirect to the listings page after successful creation or update
+  if (redirect) {
+    return <Navigate to="/account/listings" />;
   }
 
   return (
@@ -280,9 +299,7 @@ const AddPlaceForm = () => {
 
         {/* Description input */}
         <h2 className="text-xl mt-6 mb-2">Description</h2>
-        <p className="text-stone-500">
-          Write a nice description for this stay
-        </p>
+        <p className="text-stone-500">Write a nice description for this stay</p>
         <textarea
           value={description}
           onChange={(ev) => setDescription(ev.target.value)}
