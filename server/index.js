@@ -149,8 +149,18 @@ app.post("/api/login", async (req, res) => {
           return res.status(500).json({ error: "Token generation failed" });
         }
 
+        console.log("Generated Token:", token); // Debugging: Check token value
+
         // Return the user information in the response
-        res.cookie("token", token).json({ user: matchedUser });
+        res
+          .cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            path: "/",
+          })
+          .json({ user: matchedUser });
+        console.log("User logged in:", matchedUser); // Debugging: Check user info
       }
     );
   } catch (error) {
