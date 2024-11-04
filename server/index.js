@@ -164,27 +164,12 @@ app.post("/api/login", async (req, res) => {
 });
 
 // GET route to retrieve the user profile based on the token in the cookies
-app.get("/api/profile", (req, res) => {
+app.get("/api/profile", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  const { token } = req.cookies;
-  // Check if the token exists
-  if (token) {
-    // Verify the token using the jwtSecret to decode the user data
-    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-      // Error handling
-      if (err) {
-        // Respond with an error status and message if token verification fails
-        return res.status(403).json({ error: "Invalid token" });
-      }
-      // Fetch the user details from the database using the user ID from the token payload
-      const { name, email, _id } = await User.findById(userData.id);
-      // Respond with the user's name, email, and ID as JSON
-      res.json({ name, email, _id });
-    });
-  } else {
-    // If no token is found, respond with null to indicate no user is logged in
-    res.json(null);
-  }
+  // Get userData by calling the function getUserDataFromToken
+  const userData = await getUserDataFromToken(req);
+  const { name, email, _id } = await User.findById(userData.id);
+  res.json({ name, email, _id });
 });
 
 // Post route to logout
@@ -268,20 +253,14 @@ app.post("/api/places", (req, res) => {
 });
 
 // Get route to retrieve all places related to the user by user id
-app.get("/api/places", (req, res) => {
+app.get("/api/places", async (req, res) => {
   mongoose.connect(process.env.MONGO_URL);
-  const { token } = req.cookies;
-  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-    // Error handling
-    if (err) {
-      // Respond with an error status and message if token verification fails
-      return res.status(403).json({ error: "Invalid token" });
-    }
-    // Retrieve all places that belong to the user
-    const { id } = userData;
-    const places = await Place.find({ owner: id });
-    res.json(places);
-  });
+  // Get userData by calling the function getUserDataFromToken
+  const userData = await getUserDataFromToken(req);
+  const { id } = userData;
+  // Find all places that belong to the user
+  const places = await Place.find({ owner: id });
+  res.json(places);
 });
 
 // Get route to retrieve a single place by id
