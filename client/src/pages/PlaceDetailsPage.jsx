@@ -46,11 +46,11 @@ const PlaceDetailsPage = () => {
             <h2 className="text-xl font-bold">Description</h2>
             <p>{placeData.description}</p>
           </div>
-          <p>Check-in:{placeData.checkIn} pm</p>
+          <p>Check-in:{placeData.checkIn}:00 pm</p>
           <br />
-          <p>Check-out:{placeData.checkOut} am</p>
+          <p>Check-out:{placeData.checkOut}:00 am</p>
           <br />
-          <p>Max guests:{placeData.maxGuests}</p>
+          <p>Max guests:{placeData.maxGuests} guests</p>
           {/* Render the place amenities */}
           <div className="my-6">
             <h2 className="text-xl font-bold">Amenities</h2>
