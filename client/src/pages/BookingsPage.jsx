@@ -25,7 +25,7 @@ const BookingsPage = () => {
       {/* Render the list of bookings */}
       <div className="mt-6 mx-4">
         {bookingsData.map((booking) => (
-          <div key={booking._id} className="bg-red-50 mb-4 p-4 rounded-2xl">
+          <div key={booking._id} className="bg-blue-200 mb-4 p-4 rounded-2xl">
             <Link
               to={`/account/bookings/${booking._id}`}
               className="flex gap-4 cursor-pointer"
