@@ -28,13 +28,13 @@ const Header = () => {
           <span className="font-bold text-xl">DreamStay</span>
         </Link>
         {/* search area */}
-        <div className="flex justify-center border border-neutral-300 rounded-full py-2 px-6 shadow-md shadow-gray-300 gap-4">
+        <div className="flex justify-center border border-neutral-300 rounded-full py-2 px-8 shadow-md shadow-gray-300 gap-5">
           <div className="mt-4">Where</div>
           <div className="border-l border-neutral-300"></div>
           <div className="mt-4">When</div>
           <div className="border-l border-neutral-300"></div>
           <div className="mt-4">Guests</div>
-          <button className="bg-primary text-black text-sm p-2 rounded-full hover:bg-blue-300 hover:text-white">
+          <button className="bg-primary text-gray-700 text-xs p-2 rounded-full hover:bg-blue-300 hover:text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
