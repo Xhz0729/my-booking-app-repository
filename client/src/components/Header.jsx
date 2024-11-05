@@ -33,7 +33,7 @@ const Header = () => {
           <div className="mt-4">When</div>
           <div className="border-l border-neutral-300"></div>
           <div className="mt-4">Guests</div>
-          <button className="bg-primary text-gray-700 text-xs p-2 rounded-full hover:bg-blue-300 hover:text-white">
+          <button className="bg-primary text-gray-700 text-xs px-4 py-2 rounded-full hover:bg-blue-300 hover:text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
