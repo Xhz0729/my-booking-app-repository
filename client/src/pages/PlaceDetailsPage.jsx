@@ -23,7 +23,7 @@ const PlaceDetailsPage = () => {
   return (
     <div className="mt-4 bg-blue-50 -mx-8 px-20 pt-8">
       {/* Render the place title */}
-      <h1 className="text-2xl font-bold mb-2">{placeData.title}</h1>
+      <h1 className="text-2xl font-bold mb-2 font-openSans">{placeData.title}</h1>
 
       {/* Conditionally render components based on showMorePhotos */}
       {showMorePhotos ? (
@@ -43,7 +43,7 @@ const PlaceDetailsPage = () => {
         <div>
           {/* Render the place description */}
           <div className="my-6">
-            <h2 className="text-xl font-bold">Description</h2>
+            <h2 className="text-xl font-bold font-openSans">Description</h2>
             <p>{placeData.description}</p>
           </div>
           <p>Check-in:{placeData.checkIn}:00 pm</p>
@@ -53,7 +53,7 @@ const PlaceDetailsPage = () => {
           <p>Max guests:{placeData.maxGuests} guests</p>
           {/* Render the place amenities */}
           <div className="my-6">
-            <h2 className="text-xl font-bold">Amenities</h2>
+            <h2 className="text-xl font-bold font-openSans">Amenities</h2>
             <ul className="list-disc list-inside">
               {placeData.amenities &&
                 placeData.amenities.map((amenity) => {
@@ -81,7 +81,7 @@ const PlaceDetailsPage = () => {
         <BookingWidget placeData={placeData} />
       </div>
       <div className="my-4 py-2 leading-6 border-t">
-        <h2 className="text-xl font-bold ">Extra information</h2>
+        <h2 className="text-xl font-bold font-openSans ">Extra information</h2>
         <p className="text-gray-500 mt-1 mb-4">{placeData.extraInfo}</p>
       </div>
     </div>
