@@ -51,6 +51,32 @@ const PlaceDetailsPage = () => {
           <p>Check-out:{placeData.checkOut} am</p>
           <br />
           <p>Max guests:{placeData.maxGuests}</p>
+          {/* Render the place amenities */}
+          <div className="my-6">
+            <h2 className="text-xl font-bold">Amenities</h2>
+            <ul className="list-disc list-inside">
+              {placeData.amenities &&
+                placeData.amenities.map((amenity) => {
+                  {
+                    /* Implement the amenityLabels object */
+                  }
+                  const amenityLabels = {
+                    parking: "Free Parking",
+                    tv: "TV",
+                    wifi: "WIFI",
+                    pet: "Pet Friendly",
+                    entrance: "Private Entrance",
+                    pool: "Swimming Pool",
+                  };
+                  {
+                    /* Render amenityLabels's value accordingly */
+                  }
+                  return amenityLabels[amenity] ? (
+                    <li key={amenity}>{amenityLabels[amenity]}</li>
+                  ) : null;
+                })}
+            </ul>
+          </div>
         </div>
         <BookingWidget placeData={placeData} />
       </div>
