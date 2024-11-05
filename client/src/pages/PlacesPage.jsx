@@ -53,12 +53,12 @@ const PlacesPage = () => {
               key={place._id}
             >
               {/* Render the place first image */}
-              <div className="w-32 h-32 bg-blue-200 grow shrink-0">
+              <div className="w-36 h-36 bg-blue-200 grow shrink-0">
                 {/* Render the Image component */}
                 <Image
                   src={`${place.photos[0]}`}
                   alt={place.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-full"
                 />
               </div>
               <div className="grow-0 shrink">
