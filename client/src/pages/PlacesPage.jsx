@@ -22,7 +22,9 @@ const PlacesPage = () => {
       <div className="text-center mt-10">
         <Link
           to="/account/listings/new"
-          className="bg-primary inline-flex py-2 px-6 gap-1 rounded-full"
+          className="bg-primary inline-flex py-2 px-6 gap-1 rounded-full hover:bg-blue-300 hover:text-white"
+          role="button" // Added for accessibility
+          tabIndex="0" // Added for keyboard navigation
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
