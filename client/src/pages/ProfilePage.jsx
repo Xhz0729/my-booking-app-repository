@@ -46,7 +46,7 @@ const ProfilePage = () => {
       <AccountNav />
       {subpage === "profile" && (
         <div className="max-w-lg text-center mx-auto mt-10">
-          <h2 className="mb-2">Logged in as <b>{user.name}</b></h2>
+          <h2 className="mb-2">Logged in as <b className="text-blue-300">{user.name}</b></h2>
           <h3 className="mb-2">Email: <b>{user.email}</b> </h3>
           <button
             onClick={logout}
