@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +8,10 @@ input[type="text"],
 input[type="password"],
 input[type="email"],
 input[type="number"],
+
+body {
+  font-family: 'Georgia', sans-serif;
+}
 textarea {
   @apply w-full border my-1 py-2 px-3 rounded-2xl;
 }
