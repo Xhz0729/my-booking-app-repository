@@ -110,9 +110,23 @@ const BookingWidget = ({ placeData }) => {
           <input
             type="number"
             value={numberOfGuests}
-            onChange={(e) => setNumberOfGuests(e.target.value)}
+            placeholder="1"
+            min={1} // Set a minimum limit of 1
+            max={placeData.maxGuests} // Set the max attribute
+            onChange={(e) => {
+              {
+                /* Restrict the input to be a number between 1 and maxGuests */
+              }
+              const inputValue = parseInt(e.target.value, 10) || 0;
+              const value = Math.max(
+                1,
+                Math.min(inputValue, placeData.maxGuests)
+              );
+              setNumberOfGuests(value);
+            }}
           />
         </label>
+
         {/* Render the book button */}
         <div className="flex justify-center mb-4">
           <button
