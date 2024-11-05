@@ -117,7 +117,7 @@ const BookingWidget = ({ placeData }) => {
         <div className="flex justify-center mb-4">
           <button
             onClick={handleBooking}
-            className="bg-primary px-8 py-4 mt-4 rounded-2xl shadow hover:bg-red-400"
+            className="bg-primary px-8 py-4 mt-4 rounded-2xl shadow hover:bg-blue-300 hover:text-white"
           >
             Book this place
             {totalDays > 0 && (
