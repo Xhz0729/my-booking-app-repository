@@ -57,4 +57,21 @@ describe("Header component", () => {
     const searchButton = screen.getByRole("button", { name: /Search/i });
     expect(searchButton).toBeInTheDocument();
   });
+
+  // Test when user exists, the user icon navigates to the account page
+  it ("navigates to '/account' when user exists", () => {
+    // Provide a mock user
+    const mockUser = { name: "test" };
+    render(
+      <UserContext.Provider value={{ user: mockUser }}>    
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+      </UserContext.Provider>
+    );
+    // Find the link element that contains the user icon
+    const userIcon = screen.getByTestId("user-icon");
+    // Assert that the link has the correct href attribute that points to ‘/account’
+    expect(userIcon).toHaveAttribute("href", "/account");
+  });
 });
