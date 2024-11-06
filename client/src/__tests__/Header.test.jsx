@@ -43,4 +43,18 @@ describe("Header component", () => {
     const Guests = screen.getByText(/Guests/i);
     expect(Guests).toBeInTheDocument();
   });
+
+  // Test the search button in the Header component
+  it("renders the search button", () => {
+    render(
+      <UserContext.Provider value={{ user: null }}>
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+      </UserContext.Provider>
+    );
+    // Assert that the search button is rendered
+    const searchButton = screen.getByRole("button", { name: /Search/i });
+    expect(searchButton).toBeInTheDocument();
+  });
 });
