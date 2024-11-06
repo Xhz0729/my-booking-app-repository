@@ -59,11 +59,11 @@ describe("Header component", () => {
   });
 
   // Test when user exists, the user icon navigates to the account page
-  it ("navigates to '/account' when user exists", () => {
+  it("navigates to '/account' when user exists", () => {
     // Provide a mock user
     const mockUser = { name: "test" };
     render(
-      <UserContext.Provider value={{ user: mockUser }}>    
+      <UserContext.Provider value={{ user: mockUser }}>
         <MemoryRouter>
           <Header />
         </MemoryRouter>
@@ -88,5 +88,22 @@ describe("Header component", () => {
     const userIcon = screen.getByTestId("user-icon");
     // Assert that the link has the correct href attribute that points to ‘/login’
     expect(userIcon).toHaveAttribute("href", "/login");
+  });
+
+  // Test when user exists, render user name
+  it("renders the user name when user exists", () => {
+    // Provide a mock user
+    const mockUser = { name: "test" };
+    render(
+      <UserContext.Provider value={{ user: mockUser }}>
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+      </UserContext.Provider>
+    );
+    // Find the user name element
+    const user = screen.getByText(/test/i);
+    // Assert that the user name is rendered
+    expect(user).toBeInTheDocument();
   });
 });
