@@ -55,6 +55,7 @@ const Header = () => {
         <Link
           // if we have a user, go to account page, otherwise go to login page
           to={user ? "/account" : "/login"}
+          data-testid="user-icon"
           className="flex items-center border border-neutral-300 rounded-full py-2 px-6 shadow-md shadow-gray-300 gap-4"
         >
           <svg
