@@ -74,4 +74,19 @@ describe("Header component", () => {
     // Assert that the link has the correct href attribute that points to ‘/account’
     expect(userIcon).toHaveAttribute("href", "/account");
   });
+
+  // Test when user does not exist, the user icon navigates to the login page
+  it("navigates to '/login' when user does not exist", () => {
+    render(
+      <UserContext.Provider value={{ user: null }}>
+        <MemoryRouter>
+          <Header />
+        </MemoryRouter>
+      </UserContext.Provider>
+    );
+    // Find the link element that contains the user icon
+    const userIcon = screen.getByTestId("user-icon");
+    // Assert that the link has the correct href attribute that points to ‘/login’
+    expect(userIcon).toHaveAttribute("href", "/login");
+  });
 });
