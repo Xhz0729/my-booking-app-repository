@@ -373,7 +373,7 @@ const AddPlaceForm = () => {
         </div>
         {/*Save button */}
         <div>
-          <button className="login my-2">Save</button>
+          <button className="bg-primary mt-2 p-2 w-full rounded-2xl hover:bg-blue-300 hover:text-white">Save</button>
         </div>
       </form>
     </div>

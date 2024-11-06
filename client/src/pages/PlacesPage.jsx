@@ -22,7 +22,9 @@ const PlacesPage = () => {
       <div className="text-center mt-10">
         <Link
           to="/account/listings/new"
-          className="bg-primary inline-flex py-2 px-6 gap-1 rounded-full"
+          className="bg-primary inline-flex py-2 px-6 gap-1 rounded-full hover:bg-blue-300 hover:text-white"
+          role="button" // Added for accessibility
+          tabIndex="0" // Added for keyboard navigation
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -51,17 +53,17 @@ const PlacesPage = () => {
               key={place._id}
             >
               {/* Render the place first image */}
-              <div className="w-32 h-32 bg-blue-200 grow shrink-0">
+              <div className="w-36 h-36 bg-blue-200 grow shrink-0">
                 {/* Render the Image component */}
                 <Image
                   src={`${place.photos[0]}`}
                   alt={place.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-full"
                 />
               </div>
               <div className="grow-0 shrink">
-                <h2 className="text-xl font-bold">{place.title}</h2>
-                <p className="text-sm mt-2">{place.description}</p>
+                <h2 className="text-xl font-bold font-openSans">{place.title}</h2>
+                <p className="text-sm mt-2 text-gray-700">{place.description}</p>
               </div>
             </Link>
           ))}

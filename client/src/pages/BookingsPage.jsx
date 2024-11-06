@@ -25,7 +25,7 @@ const BookingsPage = () => {
       {/* Render the list of bookings */}
       <div className="mt-6 mx-4">
         {bookingsData.map((booking) => (
-          <div key={booking._id} className="bg-red-50 mb-4 p-4 rounded-2xl">
+          <div key={booking._id} className="bg-blue-200 mb-4 p-4 rounded-2xl">
             <Link
               to={`/account/bookings/${booking._id}`}
               className="flex gap-4 cursor-pointer"
@@ -41,7 +41,9 @@ const BookingsPage = () => {
               </div>
               <div className="grow-0 shrink">
                 {/* Render the booking place title */}
-                <h2 className="text-xl font-bold mb-2">{booking.place.title}</h2>
+                <h2 className="text-xl font-bold mb-2 font-openSans">
+                  {booking.place.title}
+                </h2>
                 {/* Render the booking check-in and check-out dates */}
                 {format(new Date(booking.checkIn), "MMM dd, yyyy")} -{" "}
                 {format(new Date(booking.checkOut), "MMM dd, yyyy")}
@@ -66,7 +68,7 @@ const BookingsPage = () => {
                     </svg>
 
                     <p>
-                      <b>Check-in:</b>
+                      <b className="font-openSans">Check-in:</b>
                       {booking.place.checkIn}:00 PM
                     </p>
                   </div>
@@ -86,7 +88,7 @@ const BookingsPage = () => {
                       />
                     </svg>
                     <p>
-                      <b>Checkout:</b>
+                      <b className="font-openSans">Checkout:</b>
                       {booking.place.checkOut}:00 AM
                     </p>
                   </div>

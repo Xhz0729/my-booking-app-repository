@@ -3,7 +3,7 @@ import React from "react";
 const MapLink = ({ address }) => {
   return (
     <a
-      className="flex gap-1 underline text-blue-300 my-3"
+      className="flex gap-1 underline text-gray-800 my-3"
       target="_blank"
       rel="noopener noreferrer"
       href={"https://maps.google.com/?q=" + encodeURIComponent(address)}
