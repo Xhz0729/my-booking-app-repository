@@ -2,7 +2,6 @@ import { render, screen, waitFor } from "@testing-library/react";
 import axios from "axios";
 import PlaceDetailsPage from "../pages/PlaceDetailsPage";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { expect } from "vitest";
 
 // Mock the axios.get function
 vi.mock("axios");
@@ -18,7 +17,6 @@ describe("PlaceDetailsPage", () => {
       extraInfo: "Pet not allowed",
       checkIn: 14,
       checkOut: 11,
-      maxGuests: 4,
     };
 
     // Mock the axios.get response
