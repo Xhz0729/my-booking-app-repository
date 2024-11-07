@@ -53,4 +53,22 @@ describe("AddPlaceForm", () => {
       screen.getByDisplayValue(mockPlaceData.maxGuests)
     ).toBeInTheDocument();
   });
+
+  // Test the form renders with the correct section titles
+  it("renders form each section title correctly", () => {
+    // Render the form
+    render(
+      <MemoryRouter>
+        <AddPlaceForm />
+      </MemoryRouter>
+    );
+    // Check that the form section titles are rendered
+    expect(screen.getByText("Title")).toBeInTheDocument();
+    expect(screen.getByText("Address")).toBeInTheDocument();
+    expect(screen.getByText("Photos")).toBeInTheDocument();
+    expect(screen.getByText("Description")).toBeInTheDocument();
+    expect(screen.getByText("Amenities")).toBeInTheDocument();
+    expect(screen.getByText("Extra info")).toBeInTheDocument();
+    expect(screen.getByText("Time for check in&out")).toBeInTheDocument();
+  });
 });
