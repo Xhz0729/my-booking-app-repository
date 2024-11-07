@@ -1,8 +1,11 @@
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import BookingWidget from "../components/BookingWidget";
 import { UserContext } from "../context/UserContext";
 import { expect } from "vitest";
+import axios from "axios";
+
+vi.mock("axios");
 
 describe("BookingWidget render not crashing", () => {
   // Provide mock data for placeData prop
@@ -44,5 +47,39 @@ describe("BookingWidget render not crashing", () => {
     const totalPrice = totalDays * placeData.price;
     // Assert that the total days are calculated correctly
     expect(screen.getByText(`with $${totalPrice}`)).toBeInTheDocument();
+  });
+
+  it("submits the form to create a new booking", () => {
+    // Mock the axios.post response to simulate a successful booking response
+    axios.post.mockResolvedValueOnce({ data: { _id: "mockBookingId" } });
+
+    renderComponent();
+
+    // Provide mock data for check-in and check-out dates
+    const checkIn = "2024-10-01";
+    const checkOut = "2024-10-05";
+    fireEvent.change(screen.getByLabelText(/Check-in:/), {
+      target: { value: checkIn },
+    });
+    fireEvent.change(screen.getByLabelText(/Check-out:/), {
+      target: { value: checkOut },
+    });
+
+    fireEvent.change(screen.getByLabelText(/Number of guests:/), {
+      target: { value: "2" }, // The value should be a string here, not a number
+    });
+
+    // Mock the name and email input
+    fireEvent.change(screen.getByLabelText(/Your name:/), {
+      target: { value: "Test" },
+    });
+
+    fireEvent.change(screen.getByLabelText(/Your email:/), {
+      target: { value: "test@example.com" },
+    });
+
+    // Trigger form submission by clicking the button
+    fireEvent.click(screen.getByRole("button", { name: /Book this place/ }));
+    expect(axios.post).toHaveBeenCalledTimes(1);
   });
 });
