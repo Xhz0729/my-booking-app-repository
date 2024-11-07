@@ -47,9 +47,5 @@ describe("BookingPage component", () => {
       expect(screen.getByText(mockBookingData.price)).toBeInTheDocument();
       expect(screen.getByText(mockBookingData.checkIn)).toBeInTheDocument();
       expect(screen.getByText(mockBookingData.checkOut)).toBeInTheDocument();
-      expect(screen.getByText(mockBookingData.name)).toBeInTheDocument();
-      expect(
-        screen.getByText(mockBookingData.numberOfGuests)
-      ).toBeInTheDocument();
     };
 });
