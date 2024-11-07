@@ -4,6 +4,7 @@ import BookingWidget from "../components/BookingWidget";
 import { UserContext } from "../context/UserContext";
 import { expect } from "vitest";
 import axios from "axios";
+import { max } from "date-fns";
 
 vi.mock("axios");
 
@@ -12,6 +13,7 @@ describe("BookingWidget render not crashing", () => {
   const placeData = {
     _id: "1",
     price: 100,
+    maxGuests: 4,
   };
 
   // Provide mock data for the user context
@@ -81,5 +83,28 @@ describe("BookingWidget render not crashing", () => {
     // Trigger form submission by clicking the button
     fireEvent.click(screen.getByRole("button", { name: /Book this place/ }));
     expect(axios.post).toHaveBeenCalledTimes(1);
+  });
+
+  // Test the number of guests input validation
+  it("limits the number of guests input between 1 and the maxGuests", () => {
+    renderComponent();
+    // Initially, the value should be 1 as the state is set to 1
+    const input = screen.getByLabelText(/Number of guests:/);
+    expect(input.value).toBe("1");
+
+    // Mock the input onChange event, input greater than maxGuests
+    fireEvent.change(input, { target: { value: "6" } });
+    // Assert that the value is set to the maxGuests
+    expect(input.value).toBe("4");
+
+    // Mock the input onChange event, input less than 1
+    fireEvent.change(input, { target: { value: "0" } });
+    // Assert that the value is set to 1
+    expect(input.value).toBe("1");
+
+    // Mock the input onChange event, input between 1 and maxGuests
+    fireEvent.change(input, { target: { value: "2" } });
+    // Assert that the value is set to 3
+    expect(input.value).toBe("2");
   });
 });
