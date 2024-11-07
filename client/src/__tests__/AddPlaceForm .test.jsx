@@ -71,4 +71,22 @@ describe("AddPlaceForm", () => {
     expect(screen.getByText("Extra info")).toBeInTheDocument();
     expect(screen.getByText("Time for check in&out")).toBeInTheDocument();
   });
+
+  // Test the form renders with empty input fields when no data is passed
+  it("renders form with empty input fields", () => {
+    // Render the form
+    render(
+      <MemoryRouter>
+        <AddPlaceForm />
+      </MemoryRouter>
+    );
+
+    // Check that all text input fields are empty
+    const textInputs = screen.getAllByRole("textbox");
+    textInputs.forEach((input) => expect(input).toHaveValue(""));
+
+    // Check that all checkbox input fields are unchecked
+    const checkboxes = screen.getAllByRole("checkbox");
+    checkboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked());
+  });
 });
