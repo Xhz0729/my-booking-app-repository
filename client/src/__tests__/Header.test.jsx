@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import Header from "../components/Header";
-import { expect } from "vitest";
 
 describe("Header component", () => {
   // Test that clicking on the company name navigates to the homepage (‘/‘)

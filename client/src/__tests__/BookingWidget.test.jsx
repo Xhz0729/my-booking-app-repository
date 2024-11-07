@@ -2,9 +2,7 @@ import { render, fireEvent, screen, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import BookingWidget from "../components/BookingWidget";
 import { UserContext } from "../context/UserContext";
-import { expect } from "vitest";
 import axios from "axios";
-import { max } from "date-fns";
 
 vi.mock("axios");
 
