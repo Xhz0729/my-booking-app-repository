@@ -126,7 +126,7 @@ const BookingDetailsPage = () => {
               />
             </svg>
             <p>
-              <b className="font-openSans">Checkout:</b>
+              <b className="font-openSans">Check-out:</b>
               {booking.place.checkOut}:00 AM
             </p>
           </div>
