@@ -3,7 +3,6 @@ import app from "../index.js";
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import e from "express";
 
 // Mock the User model and its methods
 jest.mock("../models/User");
@@ -86,5 +85,33 @@ describe("POST /api/login", () => {
     // Check if the response status is 422 and the error message is 'Wrong password'
     expect(response.status).toBe(422);
     expect(response.body.error).toBe("Wrong password");
+  });
+
+  // Test token generation error
+  it("should return 500 if token generation fails", async () => {
+    const mockUser = {
+      _id: "userId",
+      email: "user@example.com",
+      password: "hashedPassword",
+    };
+
+    // User found in the database
+    User.findOne.mockResolvedValue(mockUser);
+    // Password check is successful
+    bcrypt.compare.mockResolvedValue(true);
+
+    // Mock jwt.sign to simulate token generation failure
+    const mockToken = "mockToken";
+    jwt.sign.mockImplementation((payload, jwtSecret, options, callback) => {
+      callback("Token generation failed", null);
+    });
+    // Send a POST request to the server
+    const response = await request(app)
+      .post("/api/login")
+      .send({ email: "user@example.com", password: "rightPassword" });
+
+    // Check if the response status is 500 and the error message is 'Token generation failed'
+    expect(response.status).toBe(500);
+    expect(response.body.error).toBe("Token generation failed");
   });
 });
