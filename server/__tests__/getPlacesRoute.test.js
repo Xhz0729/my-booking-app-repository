@@ -73,4 +73,22 @@ describe("GET /api/places", () => {
     // Check if Place.find was called with the correct arguments
     expect(Place.find).toHaveBeenCalledWith({ owner: mockUserData.id });
   });
+
+  // Test error handling for the fetch places route
+  it("should return 500 if an error occurs while fetching places", async () => {
+    // Mock error when Place.find is called
+    Place.find.mockImplementation(() => {
+      throw new Error("Database error");
+    });
+
+    const response = await request(app)
+      .get("/api/places")
+      .set("Cookie", `token=${validToken}`);
+
+    // Verify response for error case
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({
+      error: "An error occurred while fetching accommodations listed by user",
+    });
+  });
 });
