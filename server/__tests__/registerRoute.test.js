@@ -51,4 +51,19 @@ describe("POST /api/register", () => {
     expect(response.body).toHaveProperty("email", "Test@example.com");
     expect(response.body).toHaveProperty("password", hashedPassword);
   });
+  // Test error handling for the register route
+  it("should return 400 if there's an error", async () => {
+    User.create = jest
+      .fn()
+      .mockRejectedValue(new Error("User creation failed"));
+
+    // Send a POST request to the server without the email field
+    const response = await request(app)
+      .post("/api/register")
+      .send({ name: "John Doe", email: "john@example.com" });
+
+    // Check the response status and message
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("message", "User creation failed");
+  });
 });
