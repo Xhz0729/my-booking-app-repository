@@ -13,8 +13,6 @@ import multer from "multer";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import mime from "mime-types";
 import fs from "fs";
-import { fileURLToPath } from "url";
-export const __filename = fileURLToPath(import.meta.url);
 import axios from "axios";
 
 dotenv.config();
@@ -112,7 +110,7 @@ app.post("/api/register", async (req, res) => {
     });
     res.json(newUser);
   } catch (e) {
-    res.status(400).json(e);
+    res.status(400).json({ message: e.message || "User creation failed" });
   }
 });
 
