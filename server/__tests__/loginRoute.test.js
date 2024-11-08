@@ -49,4 +49,18 @@ describe("POST /api/login", () => {
     // Check if the token is set in the cookie
     expect(response.headers["set-cookie"][0]).toContain("token=mockToken");
   });
+
+  // Test user not found error
+  it("should return 404 if user is not found", async () => {
+    // Use null to simulate not finding the user in the database
+    User.findOne.mockResolvedValue(null);
+
+    const response = await request(app)
+      .post("/api/login")
+      .send({ email: "invalidEmail@example.com", password: "password" });
+
+    // Check if the response status is 404 and the error message is 'User not found'
+    expect(response.status).toBe(404);
+    expect(response.body.error).toBe("User not found");
+  });
 });
