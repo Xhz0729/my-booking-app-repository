@@ -3,6 +3,7 @@ import app from "../index.js";
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import e from "express";
 
 // Mock the User model and its methods
 jest.mock("../models/User");
@@ -62,5 +63,28 @@ describe("POST /api/login", () => {
     // Check if the response status is 404 and the error message is 'User not found'
     expect(response.status).toBe(404);
     expect(response.body.error).toBe("User not found");
+  });
+
+  // Test incorrect password error
+  it("should return 422 if password is incorrect", async () => {
+    const mockUser = {
+      _id: "userId",
+      email: "user@example.com",
+      password: "hashedPassword",
+    };
+
+    // Mock User.findOne to simulate finding the user in the database
+    User.findOne.mockResolvedValue(mockUser);
+
+    // Mock bcrypt.compare to simulate password check did not match
+    bcrypt.compare.mockResolvedValue(false);
+
+    const response = await request(app)
+      .post("/api/login")
+      .send({ email: "user@example.com", password: "password" });
+
+    // Check if the response status is 422 and the error message is 'Wrong password'
+    expect(response.status).toBe(422);
+    expect(response.body.error).toBe("Wrong password");
   });
 });
