@@ -1,8 +1,8 @@
 import request from "supertest";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import app from "../index.js"; // Adjust path as necessary
-import User from "../models/User"; // Adjust path as necessary
+import app from "../index.js";
+import User from "../models/User";
 
 // Mock the User model and its methods
 jest.mock("../models/User");
@@ -51,6 +51,7 @@ describe("POST /api/register", () => {
     expect(response.body).toHaveProperty("email", "Test@example.com");
     expect(response.body).toHaveProperty("password", hashedPassword);
   });
+
   // Test error handling for the register route
   it("should return 400 if there's an error", async () => {
     User.create = jest
